@@ -10,9 +10,9 @@ all: generate compile
 
 generate:
 	@echo "🔧 Generating scanner..."
-	$(JFLEX) $(SRC)/lexer.flex -d $(SRC)
+	$(JFLEX) $(SRC)/Scanner.flex -d $(SRC)
 	@echo "🔧 Generating parser..."
-	$(CUP) -destdir $(SRC) -parser parser $(SRC)/parser.cup
+	$(CUP) -destdir $(SRC) -parser parser $(SRC)/Parser.cup
 
 compile:
 	@echo "🔨 Compiling..."
@@ -25,7 +25,7 @@ run:
 
 clean:
 	rm -rf $(BIN)
-	rm -f $(SRC)/Lexer.java $(SRC)/parser.java $(SRC)/sym.java
+	rm -f $(SRC)/KontraktScanner.java $(SRC)/parser.java $(SRC)/sym.java
 	rm -f GeneratedTests.java
 
 .PHONY: all generate compile run clean
