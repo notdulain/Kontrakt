@@ -1,5 +1,5 @@
 package ast;
 
-public class HttpMethod {
-    
+public enum HttpMethod {
+    GET, POST, PUT, DELETE
 }
