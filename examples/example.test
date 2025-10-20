@@ -1,2 +1,7 @@
-test Login { }
-test GetUser { }
+test GetUser {
+  GET "/api/users/42";
+}
+
+test Login {
+  POST "/api/login" { };
+}
