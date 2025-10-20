@@ -1,32 +1,49 @@
+import java_cup.runtime.*;
+
+//helper methods
+%{
+  private Symbol symbol(int type) {
+    return new Symbol(type, yyline, yycolumn);
+  }
+  private Symbol symbol(int type, Object value) {
+    return new Symbol(type, yyline, yycolumn, value);
+  }
+%}
+
 %%
+
+//JFlex Directives
 %class KontraktScanner
+%unicode
 %cup
+%line
+%column
 
-TEST = "test"
-
-GET = "GET"
-POST = "POST"
-PUT = "PUT"
-DELETE = "DELETE"
-
-EXPECT = "expect"
-
+//Macros
 NUMBER = [0-9]+
 IDENTIFIER = [a-zA-Z_][a-zA-Z0-9_]*
-STRING = \"[^\"]*\"
+STRING = \"(\\.|[^"\\])*\"
 %%
 
-{TEST} {return new Token(TokenType.TEST, yytext());}
+//Lexical rules
+<YYINITIAL> {
+    "config" {return symbol(sym.CONFIG);}
+    "test" {return symbol(sym.TEST);}
+    "expect" {return symbol(sym.EXPECT);}
 
-{GET} {return new Token(TokenType.GET, yytext());}
-{POST} {return new Token(TokenType.POST, yytext());}
-{PUT} {return new Token(TokenType.PUT, yytext());}
-{DELETE} {return new Token(TokenType.DELETE, yytext());}
+    "GET" {return symbol(sym.GET);}
+    "POST" {return symbol(sym.POST);}
+    "PUT" {return symbol(sym.PUT);}
+    "DELETE" {return symbol(sym.DELETE);}
 
-{EXPECT} {return new Token(TokenType.EXPECT, yytext());}
+    {NUMBER} {return symbol(sym.NUMBER, yytext());}
+    {IDENTIFIER} {return symbol(sym.IDENTIFIER, yytext());}
+    {STRING} {
+                // This is how you pass the *value* (without quotes)
+                String val = yytext().substring(1, yytext().length()-1);
+                return symbol(sym.STRING, val);
+            }
 
-{NUMBER} {return new Token(TokenType.NUMBER, yytext());}
-{IDENTIFIER} {return new Token(TokenType.IDENTIFIER, yytext());}
-{STRING} {return new Token(TokenType.STRING, yytext().substring(1, yytext().length()-1));}
-
-[ \t\n] { /* ignore whitespace */ }
+    [ \t\n] { /* ignore whitespace */ }
+    "//" [^\n]* { /* ignore comments */ }
+}
