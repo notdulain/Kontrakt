@@ -6,21 +6,21 @@ CUPRUNTIME = lib/java-cup-11b-runtime.jar
 SRC = src
 BIN = bin
 
-LEXER_SPEC = $(SRC)/Scanner.flex
+SCANNER_SPEC = $(SRC)/Scanner.flex
 PARSER_SPEC = $(SRC)/Parser.cup
 
 # Targets
 all: generate compile
 
-generate-lexer:
-	@echo "Generating Lexer..."
-	$(JFLEX) $(LEXER_SPEC) -d $(SRC)
+generate-scanner:
+	@echo "Generating Scanner..."
+	$(JFLEX) $(SCANNER_SPEC) -d $(SRC)
 
 generate-parser:
 	@echo "Generating Parser..."
 	$(CUP) -destdir $(SRC) -parser parser $(PARSER_SPEC)
 
-generate: generate-lexer generate-parser
+generate: generate-scanner generate-parser
 
 compile:
 	@echo "🔨 Compiling..."

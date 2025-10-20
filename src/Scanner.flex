@@ -22,7 +22,8 @@ import java_cup.runtime.*;
 //Macros
 NUMBER = [0-9]+
 IDENTIFIER = [a-zA-Z_][a-zA-Z0-9_]*
-STRING = \"(\\.|[^"\\])*\"
+STRING = \"([^\"\n\r\\]|\\[^\n\r])*\"
+
 %%
 
 //Lexical rules
