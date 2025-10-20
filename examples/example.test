@@ -3,33 +3,22 @@ config {
   header "Content-Type" = "application/json";
 }
 
+// variables
 let user = "admin";
 let id = 42;
-
-test GetUser {
-  GET "/api/users/42";
-  expect status = 200;
-  expect status = 201;
-}
+let 2a = "x";
 
 test Login {
   POST "/api/login" {
-    body = "{\"username\":\"admin\"}";
+    body = "{ \"username\": \"$user\", \"password\": \"1234\" }";
   };
   expect status = 200;
-  expect body contains "token";
-  expect header "Content-Type" = "application/json";
   expect header "Content-Type" contains "json";
+  expect body contains "\"token\":";
 }
 
-test UpdateUser {
-  PUT "/api/users/42" {
-    body = "{\"role\":\"ADMIN\"}";
-  };
+test GetUser {
+  GET "/api/users/$id";
   expect status = 200;
-}
-
-test DeleteUser {
-  DELETE "/api/users/99";
-  expect status = 204;
+  expect body contains "\"id\": 42";
 }

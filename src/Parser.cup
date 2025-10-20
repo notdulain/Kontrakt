@@ -3,16 +3,18 @@ import java_cup.runtime.*;
 //parser code section
 parser code {:
   public void report_error(String message, Object info) {
-    System.err.println("❌ Parse Error: " + message);
+    if (info == null) {
+      System.err.println("Line ?: " + message);
+      return;
+    }
+    Symbol s = (Symbol) info;
+    int line = (s.left) + 1; 
+    System.err.println("Line " + line + ": " + message);
   }
   
   public void report_fatal_error(String message, Object info) {
     report_error(message, info);
     System.exit(1);
-  }
-  
-  public void syntax_error(Symbol cur_token) {
-    report_error("Syntax error at line " + cur_token.left, cur_token);
   }
 :}
 
@@ -113,6 +115,31 @@ statement ::=
       System.out.println("  📡 DELETE " + path);
     :}
   | assertion
+
+  //ERROR_RULE: missing semicolon after request
+  | GET STRING:path error:e
+    {:
+      int line = ((Symbol)e).left + 1;
+      parser.report_error("expected ';' after request at line " + line, e);
+    :}
+
+  // ERROR_RULE: missing semicolon after POST request
+  | POST STRING:path LBRACE request_body RBRACE error:e
+    {:
+      parser.report_error("expected ';' after request", e);
+    :}
+
+  // ERROR_RULE: missing semicolon after PUT request
+  | PUT STRING:path LBRACE request_body RBRACE error:e
+    {:
+      parser.report_error("expected ';' after request", e);
+    :}
+
+  // ERROR_RULE: missing semicolon after DELETE request
+  | DELETE STRING:path error:e
+    {:
+      parser.report_error("expected ';' after request", e);
+    :}
   ;
 
 //statement_list can be one or more statements
@@ -133,6 +160,14 @@ assertion ::=
     {: 
       System.out.println("  ✓ Expect status = " + code);
     :}
+
+  //ERROR_RULE: status must be an integer
+  | EXPECT STATUS EQUALS error:e SEMICOLON
+    {: 
+      int line = ((Symbol)e).left + 1;
+      parser.report_error("expected NUMBER for status at line " + line, e); 
+    :}
+
   | EXPECT BODY CONTAINS STRING:text SEMICOLON
     {: 
       System.out.println("  ✓ Expect body contains: " + text);
@@ -157,6 +192,13 @@ request_body ::=
     {: 
       System.out.println("    📄 body = " + content);
     :}
+
+  //ERROR_RULE: Body must be a string
+  | BODY EQUALS error:e SEMICOLON
+    {:
+      int line = ((Symbol)e).left + 1;
+      parser.report_error("expected STRING after 'body =' at line " + line, e);
+    :}
   ;
 
 //variable declaration
@@ -168,6 +210,19 @@ variable_decl ::=
   | LET IDENTIFIER:name EQUALS NUMBER:value SEMICOLON
     {: 
       System.out.println("📌 Variable: " + name + " = " + value);
+    :}
+
+  // ERROR_RULE: Identifier cannot start with a digit
+  | LET NUMBER:bad
+    {:
+      parser.report_error("expected IDENT after 'let'", bad);
+    :}
+
+  //ERROR_RULE: Identifier cannot start with a digit
+  | LET error:e
+    {: 
+      int line = ((Symbol)e).left + 1;
+      parser.report_error("expected IDENT after 'let' at line " + line, e);
     :}
   ;
 
