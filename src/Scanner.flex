@@ -30,7 +30,9 @@ STRING = \"([^\"\n\r\\]|\\[^\n\r])*\"
     "config" {return symbol(sym.CONFIG);}
     "test" {return symbol(sym.TEST);}
     "expect" {return symbol(sym.EXPECT);}
-
+    "status" {return symbol(sym.STATUS);}
+    
+    "=" {return symbol(sym.EQUALS);}
     "{" {return symbol(sym.LBRACE);}
     "}" {return symbol(sym.RBRACE);}
     ";" {return symbol(sym.SEMICOLON);}

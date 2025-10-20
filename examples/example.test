@@ -1,5 +1,6 @@
 test GetUser {
   GET "/api/users/42";
+  expect status = 200;
 }
 
 test Login {

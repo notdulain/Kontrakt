@@ -9,6 +9,7 @@ public class sym {
   public static final int LBRACE = 12;
   public static final int PUT = 7;
   public static final int NUMBER = 9;
+  public static final int STATUS = 15;
   public static final int STRING = 11;
   public static final int EOF = 0;
   public static final int EXPECT = 4;
@@ -19,6 +20,7 @@ public class sym {
   public static final int IDENTIFIER = 10;
   public static final int POST = 6;
   public static final int GET = 5;
+  public static final int EQUALS = 16;
   public static final int RBRACE = 13;
   public static final int CONFIG = 2;
   public static final String[] terminalNames = new String[] {
@@ -36,7 +38,9 @@ public class sym {
   "STRING",
   "LBRACE",
   "RBRACE",
-  "SEMICOLON"
+  "SEMICOLON",
+  "STATUS",
+  "EQUALS"
   };
 }
 

@@ -29,9 +29,9 @@ public class parser extends java_cup.runtime.lr_parser {
   /** Production table. */
   protected static final short _production_table[][] = 
     unpackFromStrings(new String[] {
-    "\000\006\000\002\002\004\000\002\002\003\000\002\002" +
-    "\004\000\002\003\007\000\002\004\005\000\002\004\007" +
-    "" });
+    "\000\010\000\002\002\004\000\002\002\003\000\002\002" +
+    "\004\000\002\003\010\000\002\003\007\000\002\004\005" +
+    "\000\002\004\007\000\002\005\007" });
 
   /** Access to production table. */
   public short[][] production_table() {return _production_table;}
@@ -39,16 +39,20 @@ public class parser extends java_cup.runtime.lr_parser {
   /** Parse-action table. */
   protected static final short[][] _action_table = 
     unpackFromStrings(new String[] {
-    "\000\022\000\004\005\005\001\002\000\006\002\024\005" +
+    "\000\031\000\004\005\005\001\002\000\006\002\033\005" +
     "\005\001\002\000\004\014\007\001\002\000\006\002\000" +
     "\005\000\001\002\000\004\016\010\001\002\000\006\007" +
-    "\011\010\013\001\002\000\004\015\021\001\002\000\004" +
-    "\017\020\001\002\000\004\015\014\001\002\000\004\016" +
-    "\015\001\002\000\004\017\016\001\002\000\004\020\017" +
-    "\001\002\000\004\017\ufffc\001\002\000\006\002\ufffe\005" +
-    "\ufffe\001\002\000\004\020\022\001\002\000\004\017\ufffd" +
-    "\001\002\000\006\002\uffff\005\uffff\001\002\000\004\002" +
-    "\001\001\002" });
+    "\011\010\013\001\002\000\004\015\030\001\002\000\006" +
+    "\006\021\017\022\001\002\000\004\015\014\001\002\000" +
+    "\004\016\015\001\002\000\004\017\016\001\002\000\004" +
+    "\020\017\001\002\000\006\006\ufffb\017\ufffb\001\002\000" +
+    "\004\017\027\001\002\000\004\021\023\001\002\000\006" +
+    "\002\ufffd\005\ufffd\001\002\000\004\022\024\001\002\000" +
+    "\004\013\025\001\002\000\004\020\026\001\002\000\004" +
+    "\017\ufffa\001\002\000\006\002\ufffe\005\ufffe\001\002\000" +
+    "\004\020\031\001\002\000\006\006\ufffc\017\ufffc\001\002" +
+    "\000\006\002\uffff\005\uffff\001\002\000\004\002\001\001" +
+    "\002" });
 
   /** Access to parse-action table. */
   public short[][] action_table() {return _action_table;}
@@ -56,13 +60,15 @@ public class parser extends java_cup.runtime.lr_parser {
   /** <code>reduce_goto</code> table. */
   protected static final short[][] _reduce_table = 
     unpackFromStrings(new String[] {
-    "\000\022\000\006\002\003\003\005\001\001\000\004\003" +
-    "\022\001\001\000\002\001\001\000\002\001\001\000\002" +
+    "\000\031\000\006\002\003\003\005\001\001\000\004\003" +
+    "\031\001\001\000\002\001\001\000\002\001\001\000\002" +
     "\001\001\000\004\004\011\001\001\000\002\001\001\000" +
+    "\004\005\017\001\001\000\002\001\001\000\002\001\001" +
+    "\000\002\001\001\000\002\001\001\000\002\001\001\000" +
     "\002\001\001\000\002\001\001\000\002\001\001\000\002" +
     "\001\001\000\002\001\001\000\002\001\001\000\002\001" +
     "\001\000\002\001\001\000\002\001\001\000\002\001\001" +
-    "\000\002\001\001" });
+    "\000\002\001\001\000\002\001\001" });
 
   /** Access to <code>reduce_goto</code> table. */
   public short[][] reduce_table() {return _reduce_table;}
@@ -176,22 +182,37 @@ class CUP$parser$actions {
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 3: // test_block ::= TEST IDENTIFIER LBRACE statement RBRACE 
+          case 3: // test_block ::= TEST IDENTIFIER LBRACE statement assertion RBRACE 
+            {
+              Object RESULT =null;
+		int nameleft = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-4)).left;
+		int nameright = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-4)).right;
+		String name = (String)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-4)).value;
+		 
+      System.out.println("🧪 Test: " + name + "(statement + assertion)");
+      //System.out.println("🎉 Test block parsed successfully!");
+    
+              CUP$parser$result = parser.getSymbolFactory().newSymbol("test_block",1, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-5)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
+            }
+          return CUP$parser$result;
+
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 4: // test_block ::= TEST IDENTIFIER LBRACE statement RBRACE 
             {
               Object RESULT =null;
 		int nameleft = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-3)).left;
 		int nameright = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-3)).right;
 		String name = (String)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-3)).value;
 		 
-      System.out.println("🧪 Found test: " + name + "(some statement)");
-      System.out.println("🎉 Test block parsed successfully!");
+      System.out.println("🧪 Test: " + name + "(statement)");
+      //System.out.println("🎉 Test block parsed successfully!");
     
               CUP$parser$result = parser.getSymbolFactory().newSymbol("test_block",1, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-4)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 4: // statement ::= GET STRING SEMICOLON 
+          case 5: // statement ::= GET STRING SEMICOLON 
             {
               Object RESULT =null;
 		int pathleft = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).left;
@@ -205,7 +226,7 @@ class CUP$parser$actions {
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 5: // statement ::= POST STRING LBRACE RBRACE SEMICOLON 
+          case 6: // statement ::= POST STRING LBRACE RBRACE SEMICOLON 
             {
               Object RESULT =null;
 		int pathleft = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-3)).left;
@@ -215,6 +236,20 @@ class CUP$parser$actions {
       System.out.println("  📡 POST " + path);
     
               CUP$parser$result = parser.getSymbolFactory().newSymbol("statement",2, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-4)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
+            }
+          return CUP$parser$result;
+
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 7: // assertion ::= EXPECT STATUS EQUALS NUMBER SEMICOLON 
+            {
+              Object RESULT =null;
+		int codeleft = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).left;
+		int coderight = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).right;
+		String code = (String)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-1)).value;
+		 
+      System.out.println("  ✓ Expect status = " + code);
+    
+              CUP$parser$result = parser.getSymbolFactory().newSymbol("assertion",3, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-4)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
 
