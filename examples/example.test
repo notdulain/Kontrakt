@@ -9,4 +9,19 @@ test Login {
     body = "{\"username\":\"admin\"}";
   };
   expect status = 200;
+  expect body contains "token";
+  expect header "Content-Type" = "application/json";
+  expect header "Content-Type" contains "json";
+}
+
+test UpdateUser {
+  PUT "/api/users/42" {
+    body = "{\"role\":\"ADMIN\"}";
+  };
+  expect status = 200;
+}
+
+test DeleteUser {
+  DELETE "/api/users/99";
+  expect status = 204;
 }

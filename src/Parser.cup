@@ -23,6 +23,7 @@ terminal String NUMBER, IDENTIFIER, STRING;
 terminal LBRACE, RBRACE, SEMICOLON;
 terminal STATUS, EQUALS;
 terminal BODY;
+terminal HEADER, CONTAINS;
 
 //non-terminals (grammar rules)
 non terminal program;
@@ -66,6 +67,14 @@ statement ::=
     {: 
       System.out.println("  📡 POST " + path);
     :}
+  | PUT STRING:path LBRACE request_body RBRACE SEMICOLON
+    {: 
+      System.out.println("  📡 PUT " + path);
+    :}
+  | DELETE STRING:path SEMICOLON
+    {: 
+      System.out.println("  📡 DELETE " + path);
+    :}
   | assertion
   ;
 
@@ -86,6 +95,18 @@ assertion ::=
     EXPECT STATUS EQUALS NUMBER:code SEMICOLON
     {: 
       System.out.println("  ✓ Expect status = " + code);
+    :}
+  | EXPECT BODY CONTAINS STRING:text SEMICOLON
+    {: 
+      System.out.println("  ✓ Expect body contains: " + text);
+    :}
+  | EXPECT HEADER STRING:name EQUALS STRING:value SEMICOLON
+    {: 
+      System.out.println("  ✓ Expect header " + name + " = " + value);
+    :}
+  | EXPECT HEADER STRING:name CONTAINS STRING:substr SEMICOLON
+    {: 
+      System.out.println("  ✓ Expect header " + name + " contains: " + substr);
     :}
   ;
 

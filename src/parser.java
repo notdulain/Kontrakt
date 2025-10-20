@@ -29,10 +29,12 @@ public class parser extends java_cup.runtime.lr_parser {
   /** Production table. */
   protected static final short _production_table[][] = 
     unpackFromStrings(new String[] {
-    "\000\014\000\002\002\004\000\002\002\003\000\002\002" +
+    "\000\021\000\002\002\004\000\002\002\003\000\002\002" +
     "\004\000\002\003\007\000\002\004\005\000\002\004\010" +
-    "\000\002\004\003\000\002\005\003\000\002\005\004\000" +
-    "\002\006\007\000\002\007\002\000\002\007\006" });
+    "\000\002\004\010\000\002\004\005\000\002\004\003\000" +
+    "\002\005\003\000\002\005\004\000\002\006\007\000\002" +
+    "\006\007\000\002\006\010\000\002\006\010\000\002\007" +
+    "\002\000\002\007\006" });
 
   /** Access to production table. */
   public short[][] production_table() {return _production_table;}
@@ -40,25 +42,42 @@ public class parser extends java_cup.runtime.lr_parser {
   /** Parse-action table. */
   protected static final short[][] _action_table = 
     unpackFromStrings(new String[] {
-    "\000\037\000\004\005\005\001\002\000\006\002\041\005" +
+    "\000\064\000\004\005\005\001\002\000\006\002\066\005" +
     "\005\001\002\000\004\014\007\001\002\000\006\002\000" +
-    "\005\000\001\002\000\004\016\010\001\002\000\010\006" +
-    "\014\007\012\010\016\001\002\000\012\006\ufffb\007\ufffb" +
-    "\010\ufffb\017\ufffb\001\002\000\004\015\036\001\002\000" +
-    "\012\006\014\007\012\010\016\017\035\001\002\000\004" +
-    "\021\030\001\002\000\012\006\ufffa\007\ufffa\010\ufffa\017" +
-    "\ufffa\001\002\000\004\015\017\001\002\000\004\016\020" +
-    "\001\002\000\006\017\ufff7\023\021\001\002\000\004\022" +
-    "\025\001\002\000\004\017\023\001\002\000\004\020\024" +
-    "\001\002\000\012\006\ufffc\007\ufffc\010\ufffc\017\ufffc\001" +
-    "\002\000\004\015\026\001\002\000\004\020\027\001\002" +
-    "\000\004\017\ufff6\001\002\000\004\022\031\001\002\000" +
-    "\004\013\032\001\002\000\004\020\033\001\002\000\012" +
-    "\006\ufff8\007\ufff8\010\ufff8\017\ufff8\001\002\000\012\006" +
-    "\ufff9\007\ufff9\010\ufff9\017\ufff9\001\002\000\006\002\ufffe" +
-    "\005\ufffe\001\002\000\004\020\037\001\002\000\012\006" +
-    "\ufffd\007\ufffd\010\ufffd\017\ufffd\001\002\000\006\002\uffff" +
-    "\005\uffff\001\002\000\004\002\001\001\002" });
+    "\005\000\001\002\000\004\016\010\001\002\000\014\006" +
+    "\014\007\011\010\020\011\017\012\016\001\002\000\004" +
+    "\015\063\001\002\000\016\006\014\007\011\010\020\011" +
+    "\017\012\016\017\061\001\002\000\016\006\ufff9\007\ufff9" +
+    "\010\ufff9\011\ufff9\012\ufff9\017\ufff9\001\002\000\010\021" +
+    "\041\023\042\024\043\001\002\000\016\006\ufff8\007\ufff8" +
+    "\010\ufff8\011\ufff8\012\ufff8\017\ufff8\001\002\000\004\015" +
+    "\037\001\002\000\004\015\032\001\002\000\004\015\021" +
+    "\001\002\000\004\016\022\001\002\000\006\017\ufff2\023" +
+    "\023\001\002\000\004\022\027\001\002\000\004\017\025" +
+    "\001\002\000\004\020\026\001\002\000\016\006\ufffc\007" +
+    "\ufffc\010\ufffc\011\ufffc\012\ufffc\017\ufffc\001\002\000\004" +
+    "\015\030\001\002\000\004\020\031\001\002\000\004\017" +
+    "\ufff1\001\002\000\004\016\033\001\002\000\006\017\ufff2" +
+    "\023\023\001\002\000\004\017\035\001\002\000\004\020" +
+    "\036\001\002\000\016\006\ufffb\007\ufffb\010\ufffb\011\ufffb" +
+    "\012\ufffb\017\ufffb\001\002\000\004\020\040\001\002\000" +
+    "\016\006\ufffa\007\ufffa\010\ufffa\011\ufffa\012\ufffa\017\ufffa" +
+    "\001\002\000\004\022\056\001\002\000\004\025\053\001" +
+    "\002\000\004\015\044\001\002\000\006\022\046\025\045" +
+    "\001\002\000\004\015\051\001\002\000\004\015\047\001" +
+    "\002\000\004\020\050\001\002\000\016\006\ufff4\007\ufff4" +
+    "\010\ufff4\011\ufff4\012\ufff4\017\ufff4\001\002\000\004\020" +
+    "\052\001\002\000\016\006\ufff3\007\ufff3\010\ufff3\011\ufff3" +
+    "\012\ufff3\017\ufff3\001\002\000\004\015\054\001\002\000" +
+    "\004\020\055\001\002\000\016\006\ufff5\007\ufff5\010\ufff5" +
+    "\011\ufff5\012\ufff5\017\ufff5\001\002\000\004\013\057\001" +
+    "\002\000\004\020\060\001\002\000\016\006\ufff6\007\ufff6" +
+    "\010\ufff6\011\ufff6\012\ufff6\017\ufff6\001\002\000\006\002" +
+    "\ufffe\005\ufffe\001\002\000\016\006\ufff7\007\ufff7\010\ufff7" +
+    "\011\ufff7\012\ufff7\017\ufff7\001\002\000\004\020\064\001" +
+    "\002\000\016\006\ufffd\007\ufffd\010\ufffd\011\ufffd\012\ufffd" +
+    "\017\ufffd\001\002\000\006\002\uffff\005\uffff\001\002\000" +
+    "\004\002\001\001\002" });
 
   /** Access to parse-action table. */
   public short[][] action_table() {return _action_table;}
@@ -66,18 +85,24 @@ public class parser extends java_cup.runtime.lr_parser {
   /** <code>reduce_goto</code> table. */
   protected static final short[][] _reduce_table = 
     unpackFromStrings(new String[] {
-    "\000\037\000\006\002\003\003\005\001\001\000\004\003" +
-    "\037\001\001\000\002\001\001\000\002\001\001\000\002" +
-    "\001\001\000\010\004\014\005\012\006\010\001\001\000" +
-    "\002\001\001\000\002\001\001\000\006\004\033\006\010" +
+    "\000\064\000\006\002\003\003\005\001\001\000\004\003" +
+    "\064\001\001\000\002\001\001\000\002\001\001\000\002" +
+    "\001\001\000\010\004\014\005\011\006\012\001\001\000" +
+    "\002\001\001\000\006\004\061\006\012\001\001\000\002" +
     "\001\001\000\002\001\001\000\002\001\001\000\002\001" +
-    "\001\000\002\001\001\000\004\007\021\001\001\000\002" +
+    "\001\000\002\001\001\000\002\001\001\000\002\001\001" +
+    "\000\004\007\023\001\001\000\002\001\001\000\002\001" +
+    "\001\000\002\001\001\000\002\001\001\000\002\001\001" +
+    "\000\002\001\001\000\002\001\001\000\002\001\001\000" +
+    "\004\007\033\001\001\000\002\001\001\000\002\001\001" +
+    "\000\002\001\001\000\002\001\001\000\002\001\001\000" +
+    "\002\001\001\000\002\001\001\000\002\001\001\000\002" +
     "\001\001\000\002\001\001\000\002\001\001\000\002\001" +
     "\001\000\002\001\001\000\002\001\001\000\002\001\001" +
     "\000\002\001\001\000\002\001\001\000\002\001\001\000" +
     "\002\001\001\000\002\001\001\000\002\001\001\000\002" +
     "\001\001\000\002\001\001\000\002\001\001\000\002\001" +
-    "\001" });
+    "\001\000\002\001\001\000\002\001\001" });
 
   /** Access to <code>reduce_goto</code> table. */
   public short[][] reduce_table() {return _reduce_table;}
@@ -234,7 +259,35 @@ class CUP$parser$actions {
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 6: // statement ::= assertion 
+          case 6: // statement ::= PUT STRING LBRACE request_body RBRACE SEMICOLON 
+            {
+              Object RESULT =null;
+		int pathleft = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-4)).left;
+		int pathright = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-4)).right;
+		String path = (String)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-4)).value;
+		 
+      System.out.println("  📡 PUT " + path);
+    
+              CUP$parser$result = parser.getSymbolFactory().newSymbol("statement",2, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-5)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
+            }
+          return CUP$parser$result;
+
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 7: // statement ::= DELETE STRING SEMICOLON 
+            {
+              Object RESULT =null;
+		int pathleft = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).left;
+		int pathright = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).right;
+		String path = (String)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-1)).value;
+		 
+      System.out.println("  📡 DELETE " + path);
+    
+              CUP$parser$result = parser.getSymbolFactory().newSymbol("statement",2, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-2)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
+            }
+          return CUP$parser$result;
+
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 8: // statement ::= assertion 
             {
               Object RESULT =null;
 
@@ -243,7 +296,7 @@ class CUP$parser$actions {
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 7: // statement_list ::= statement 
+          case 9: // statement_list ::= statement 
             {
               Object RESULT =null;
 		 
@@ -254,7 +307,7 @@ class CUP$parser$actions {
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 8: // statement_list ::= statement_list statement 
+          case 10: // statement_list ::= statement_list statement 
             {
               Object RESULT =null;
 		 
@@ -265,7 +318,7 @@ class CUP$parser$actions {
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 9: // assertion ::= EXPECT STATUS EQUALS NUMBER SEMICOLON 
+          case 11: // assertion ::= EXPECT STATUS EQUALS NUMBER SEMICOLON 
             {
               Object RESULT =null;
 		int codeleft = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).left;
@@ -279,7 +332,55 @@ class CUP$parser$actions {
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 10: // request_body ::= 
+          case 12: // assertion ::= EXPECT BODY CONTAINS STRING SEMICOLON 
+            {
+              Object RESULT =null;
+		int textleft = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).left;
+		int textright = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).right;
+		String text = (String)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-1)).value;
+		 
+      System.out.println("  ✓ Expect body contains: " + text);
+    
+              CUP$parser$result = parser.getSymbolFactory().newSymbol("assertion",4, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-4)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
+            }
+          return CUP$parser$result;
+
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 13: // assertion ::= EXPECT HEADER STRING EQUALS STRING SEMICOLON 
+            {
+              Object RESULT =null;
+		int nameleft = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-3)).left;
+		int nameright = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-3)).right;
+		String name = (String)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-3)).value;
+		int valueleft = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).left;
+		int valueright = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).right;
+		String value = (String)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-1)).value;
+		 
+      System.out.println("  ✓ Expect header " + name + " = " + value);
+    
+              CUP$parser$result = parser.getSymbolFactory().newSymbol("assertion",4, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-5)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
+            }
+          return CUP$parser$result;
+
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 14: // assertion ::= EXPECT HEADER STRING CONTAINS STRING SEMICOLON 
+            {
+              Object RESULT =null;
+		int nameleft = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-3)).left;
+		int nameright = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-3)).right;
+		String name = (String)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-3)).value;
+		int substrleft = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).left;
+		int substrright = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).right;
+		String substr = (String)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-1)).value;
+		 
+      System.out.println("  ✓ Expect header " + name + " contains: " + substr);
+    
+              CUP$parser$result = parser.getSymbolFactory().newSymbol("assertion",4, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-5)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
+            }
+          return CUP$parser$result;
+
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 15: // request_body ::= 
             {
               Object RESULT =null;
 		 
@@ -290,7 +391,7 @@ class CUP$parser$actions {
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 11: // request_body ::= BODY EQUALS STRING SEMICOLON 
+          case 16: // request_body ::= BODY EQUALS STRING SEMICOLON 
             {
               Object RESULT =null;
 		int contentleft = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).left;
