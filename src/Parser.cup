@@ -27,6 +27,7 @@ terminal STATUS, EQUALS;
 non terminal program;
 non terminal test_block;
 non terminal statement;
+non terminal statement_list;
 non terminal assertion;
 
 //grammar
@@ -46,14 +47,9 @@ program ::=
 
 //the main segment of our DSL: "test Login {...}"
 test_block ::= 
-    TEST IDENTIFIER:name LBRACE statement assertion RBRACE
+    TEST IDENTIFIER:name LBRACE statement_list RBRACE
     {: 
-      System.out.println("🧪 Test: " + name + "(statement + assertion)");
-      //System.out.println("🎉 Test block parsed successfully!");
-    :}
-   | TEST IDENTIFIER:name LBRACE statement RBRACE
-    {: 
-      System.out.println("🧪 Test: " + name + "(statement)");
+      System.out.println("🧪 Test: " + name + "(multiple statements)");
       //System.out.println("🎉 Test block parsed successfully!");
     :}
   ;
@@ -67,6 +63,19 @@ statement ::=
   | POST STRING:path LBRACE RBRACE SEMICOLON
     {: 
       System.out.println("  📡 POST " + path);
+    :}
+  | assertion
+  ;
+
+//statement_list can be one or more statements
+statement_list ::=
+    statement
+    {: 
+      System.out.println("  → 1 statement parsed");
+    :}
+  | statement_list statement
+    {: 
+      System.out.println("  → Another statement parsed");
     :}
   ;
 
