@@ -13,11 +13,11 @@ PARSER_SPEC = $(SRC)/Parser.cup
 all: generate compile
 
 generate-scanner:
-	@echo "Generating Scanner..."
+	@echo "`🪚 Generating Scanner..."
 	$(JFLEX) $(SCANNER_SPEC) -d $(SRC)
 
 generate-parser:
-	@echo "Generating Parser..."
+	@echo "🔧 Generating Parser..."
 	$(CUP) -destdir $(SRC) -parser parser $(PARSER_SPEC)
 
 generate: generate-scanner generate-parser

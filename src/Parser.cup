@@ -1,0 +1,51 @@
+import java_cup.runtime.*;
+
+//parser code section
+parser code {:
+  public void report_error(String message, Object info) {
+    System.err.println("❌ Parse Error: " + message);
+  }
+  
+  public void report_fatal_error(String message, Object info) {
+    report_error(message, info);
+    System.exit(1);
+  }
+  
+  public void syntax_error(Symbol cur_token) {
+    report_error("Syntax error at line " + cur_token.left, cur_token);
+  }
+:}
+
+//Terminals (tokens from the scanner)
+terminal CONFIG, TEST, EXPECT;
+terminal GET, POST, PUT, DELETE;
+terminal String NUMBER, IDENTIFIER, STRING;
+
+//non-terminals (grammar rules)
+non terminal program;
+non terminal test_block;
+
+//grammar
+start with program;
+
+//a program will be one or more test blocks
+program ::= 
+    test_block
+    {: 
+      System.out.println("✅ Parsed 1 test block"); 
+    :}
+  | program test_block
+    {: 
+      System.out.println("✅ Parsed another test block"); 
+    :}
+  ;
+
+//the main segment of our DSL: "test Login {...}"
+test_block ::= 
+    TEST IDENTIFIER:name
+    {: 
+      System.out.println("🧪 Found test: " + name);
+      System.out.println("🎉 Test block parsed successfully!");
+    :}
+  ;
+
