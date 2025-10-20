@@ -31,6 +31,7 @@ STRING = \"([^\"\n\r\\]|\\[^\n\r])*\"
     "test" {return symbol(sym.TEST);}
     "expect" {return symbol(sym.EXPECT);}
     "status" {return symbol(sym.STATUS);}
+    "body" {return symbol(sym.BODY);}
     
     "=" {return symbol(sym.EQUALS);}
     "{" {return symbol(sym.LBRACE);}

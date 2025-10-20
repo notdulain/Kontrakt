@@ -5,6 +5,8 @@ test GetUser {
 }
 
 test Login {
-  POST "/api/login" { };
+  POST "/api/login" {
+    body = "{\"username\":\"admin\"}";
+  };
   expect status = 200;
 }

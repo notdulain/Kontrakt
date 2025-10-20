@@ -22,6 +22,7 @@ terminal GET, POST, PUT, DELETE;
 terminal String NUMBER, IDENTIFIER, STRING;
 terminal LBRACE, RBRACE, SEMICOLON;
 terminal STATUS, EQUALS;
+terminal BODY;
 
 //non-terminals (grammar rules)
 non terminal program;
@@ -29,6 +30,7 @@ non terminal test_block;
 non terminal statement;
 non terminal statement_list;
 non terminal assertion;
+non terminal request_body;
 
 //grammar
 start with program;
@@ -60,7 +62,7 @@ statement ::=
     {: 
       System.out.println("  📡 GET " + path);
     :}
-  | POST STRING:path LBRACE RBRACE SEMICOLON
+  | POST STRING:path LBRACE request_body RBRACE SEMICOLON
     {: 
       System.out.println("  📡 POST " + path);
     :}
@@ -84,6 +86,18 @@ assertion ::=
     EXPECT STATUS EQUALS NUMBER:code SEMICOLON
     {: 
       System.out.println("  ✓ Expect status = " + code);
+    :}
+  ;
+
+//request body (optional)
+request_body ::=
+    /* empty */
+    {: 
+      System.out.println("    (no req body)");
+    :}
+  | BODY EQUALS STRING:content SEMICOLON
+    {: 
+      System.out.println("    📄 body = " + content);
     :}
   ;
 
