@@ -4,16 +4,6 @@
 
 import java_cup.runtime.*;
 
-//helper methods
-%{
-  private Symbol symbol(int type) {
-    return new Symbol(type, yyline, yycolumn);
-  }
-  private Symbol symbol(int type, Object value) {
-    return new Symbol(type, yyline, yycolumn, value);
-  }
-%}
-
 
 @SuppressWarnings("fallthrough")
 class KontraktScanner implements java_cup.runtime.Scanner {
@@ -310,6 +300,14 @@ class KontraktScanner implements java_cup.runtime.Scanner {
 
   /** Whether the user-EOF-code has already been executed. */
   private boolean zzEOFDone;
+
+  /* user code: */
+  private Symbol symbol(int type) {
+    return new Symbol(type, yyline, yycolumn);
+  }
+  private Symbol symbol(int type, Object value) {
+    return new Symbol(type, yyline, yycolumn, value);
+  }
 
 
   /**

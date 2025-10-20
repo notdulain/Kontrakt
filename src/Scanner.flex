@@ -1,15 +1,5 @@
 import java_cup.runtime.*;
 
-//helper methods
-%{
-  private Symbol symbol(int type) {
-    return new Symbol(type, yyline, yycolumn);
-  }
-  private Symbol symbol(int type, Object value) {
-    return new Symbol(type, yyline, yycolumn, value);
-  }
-%}
-
 %%
 
 //JFlex Directives
@@ -18,6 +8,15 @@ import java_cup.runtime.*;
 %cup
 %line
 %column
+
+%{
+  private Symbol symbol(int type) {
+    return new Symbol(type, yyline, yycolumn);
+  }
+  private Symbol symbol(int type, Object value) {
+    return new Symbol(type, yyline, yycolumn, value);
+  }
+%}
 
 //Macros
 NUMBER = [0-9]+

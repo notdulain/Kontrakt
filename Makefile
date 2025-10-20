@@ -13,7 +13,7 @@ PARSER_SPEC = $(SRC)/Parser.cup
 all: generate compile
 
 generate-scanner:
-	@echo "`🪚 Generating Scanner..."
+	@echo "🪚 Generating Scanner..."
 	$(JFLEX) $(SCANNER_SPEC) -d $(SRC)
 
 generate-parser:
@@ -25,7 +25,7 @@ generate: generate-scanner generate-parser
 compile:
 	@echo "🔨 Compiling..."
 	mkdir -p $(BIN)
-	javac -cp "$(CUPRUNTIME):$(SRC)" -d $(BIN) $(SRC)/*.java $(SRC)/ast/*.java
+	javac -cp "$(CUPRUNTIME):$(SRC)" -d $(BIN) $(SRC)/*.java
 
 run:
 	@echo "▶️  Running on examples/example.test..."
