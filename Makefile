@@ -2,17 +2,25 @@
 JFLEX = java -jar lib/jflex-full-1.9.1.jar
 CUP = java -jar lib/java-cup-11b.jar
 CUPRUNTIME = lib/java-cup-11b-runtime.jar
+
 SRC = src
 BIN = bin
+
+LEXER_SPEC = $(SRC)/Scanner.flex
+PARSER_SPEC = $(SRC)/Parser.cup
 
 # Targets
 all: generate compile
 
-generate:
-	@echo "🔧 Generating scanner..."
-	$(JFLEX) $(SRC)/Scanner.flex -d $(SRC)
-	@echo "🔧 Generating parser..."
-	$(CUP) -destdir $(SRC) -parser parser $(SRC)/Parser.cup
+generate-lexer:
+	@echo "Generating Lexer..."
+	$(JFLEX) $(LEXER_SPEC) -d $(SRC)
+
+generate-parser:
+	@echo "Generating Parser..."
+	$(CUP) -destdir $(SRC) -parser parser $(PARSER_SPEC)
+
+generate: generate-lexer generate-parser
 
 compile:
 	@echo "🔨 Compiling..."
