@@ -28,6 +28,7 @@ STRING = \"([^\"\n\r\\]|\\[^\n\r])*\"
 //Lexical rules
 <YYINITIAL> {
     "config" {return symbol(sym.CONFIG);}
+    "base_url" {return symbol(sym.BASE_URL);}
     "test" {return symbol(sym.TEST);}
     "expect" {return symbol(sym.EXPECT);}
     "status" {return symbol(sym.STATUS);}

@@ -6,33 +6,35 @@
 /** CUP generated class containing symbol constants. */
 public class sym {
   /* terminals */
-  public static final int POST = 6;
-  public static final int SEMICOLON = 14;
-  public static final int RBRACE = 13;
+  public static final int POST = 7;
+  public static final int SEMICOLON = 15;
+  public static final int RBRACE = 14;
   public static final int TEST = 3;
-  public static final int STATUS = 15;
+  public static final int STATUS = 16;
   public static final int EXPECT = 4;
-  public static final int IDENTIFIER = 10;
-  public static final int LBRACE = 12;
-  public static final int PUT = 7;
-  public static final int CONTAINS = 19;
-  public static final int EQUALS = 16;
-  public static final int STRING = 11;
+  public static final int IDENTIFIER = 11;
+  public static final int LBRACE = 13;
+  public static final int PUT = 8;
+  public static final int CONTAINS = 20;
+  public static final int EQUALS = 17;
+  public static final int STRING = 12;
   public static final int EOF = 0;
-  public static final int NUMBER = 9;
+  public static final int NUMBER = 10;
   public static final int error = 1;
-  public static final int LET = 20;
-  public static final int BODY = 17;
-  public static final int HEADER = 18;
-  public static final int DELETE = 8;
+  public static final int LET = 21;
+  public static final int BODY = 18;
+  public static final int HEADER = 19;
+  public static final int BASE_URL = 5;
+  public static final int DELETE = 9;
   public static final int CONFIG = 2;
-  public static final int GET = 5;
+  public static final int GET = 6;
   public static final String[] terminalNames = new String[] {
   "EOF",
   "error",
   "CONFIG",
   "TEST",
   "EXPECT",
+  "BASE_URL",
   "GET",
   "POST",
   "PUT",
