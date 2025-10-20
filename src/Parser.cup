@@ -20,6 +20,7 @@ parser code {:
 terminal CONFIG, TEST, EXPECT;
 terminal GET, POST, PUT, DELETE;
 terminal String NUMBER, IDENTIFIER, STRING;
+terminal LBRACE, RBRACE, SEMICOLON;
 
 //non-terminals (grammar rules)
 non terminal program;
@@ -42,9 +43,9 @@ program ::=
 
 //the main segment of our DSL: "test Login {...}"
 test_block ::= 
-    TEST IDENTIFIER:name
+    TEST IDENTIFIER:name LBRACE RBRACE
     {: 
-      System.out.println("🧪 Found test: " + name);
+      System.out.println("🧪 Found test: " + name + " (empty)");
       System.out.println("🎉 Test block parsed successfully!");
     :}
   ;

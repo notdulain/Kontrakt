@@ -31,6 +31,10 @@ STRING = \"([^\"\n\r\\]|\\[^\n\r])*\"
     "test" {return symbol(sym.TEST);}
     "expect" {return symbol(sym.EXPECT);}
 
+    "{" {return symbol(sym.LBRACE);}
+    "}" {return symbol(sym.RBRACE);}
+    ";" {return symbol(sym.SEMICOLON);}
+
     "GET" {return symbol(sym.GET);}
     "POST" {return symbol(sym.POST);}
     "PUT" {return symbol(sym.PUT);}

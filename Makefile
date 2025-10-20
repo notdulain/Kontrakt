@@ -11,6 +11,7 @@ PARSER_SPEC = $(SRC)/Parser.cup
 
 # Targets
 all: generate compile
+	@echo "Build complete! Run 'make run' to test"
 
 generate-scanner:
 	@echo "🪚 Generating Scanner..."

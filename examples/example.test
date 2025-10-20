@@ -1,2 +1,2 @@
-test Login
-test GetUser
+test Login { }
+test GetUser { }
