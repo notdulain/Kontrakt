@@ -1,3 +1,6 @@
+let user = "admin";
+let id = 42;
+
 test GetUser {
   GET "/api/users/42";
   expect status = 200;

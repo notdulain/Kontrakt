@@ -21,6 +21,7 @@ public class sym {
   public static final int EOF = 0;
   public static final int NUMBER = 9;
   public static final int error = 1;
+  public static final int LET = 20;
   public static final int BODY = 17;
   public static final int HEADER = 18;
   public static final int DELETE = 8;
@@ -46,7 +47,8 @@ public class sym {
   "EQUALS",
   "BODY",
   "HEADER",
-  "CONTAINS"
+  "CONTAINS",
+  "LET"
   };
 }
 

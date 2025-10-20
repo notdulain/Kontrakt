@@ -24,27 +24,27 @@ terminal LBRACE, RBRACE, SEMICOLON;
 terminal STATUS, EQUALS;
 terminal BODY;
 terminal HEADER, CONTAINS;
+terminal LET;
 
 //non-terminals (grammar rules)
 non terminal program;
 non terminal test_block;
+non terminal test_block_list;
 non terminal statement;
 non terminal statement_list;
 non terminal assertion;
 non terminal request_body;
+non terminal variable_decl;
+non terminal variable_list;
 
 //grammar
 start with program;
 
 //a program will be one or more test blocks
 program ::= 
-    test_block
+  | variable_list test_block_list
     {: 
-      System.out.println("✅ Parsed 1 test block"); 
-    :}
-  | program test_block
-    {: 
-      System.out.println("✅ Parsed another test block"); 
+      System.out.println("✅ Parsed program with variables and tests"); 
     :}
   ;
 
@@ -55,6 +55,12 @@ test_block ::=
       System.out.println("🧪 Test: " + name + "(multiple statements)");
       //System.out.println("🎉 Test block parsed successfully!");
     :}
+  ;
+
+//handling one or more test blocks
+test_block_list ::=
+    test_block
+  | test_block_list test_block
   ;
 
 //statement rule
@@ -120,5 +126,23 @@ request_body ::=
     {: 
       System.out.println("    📄 body = " + content);
     :}
+  ;
+
+//variable declaration
+variable_decl ::=
+    LET IDENTIFIER:name EQUALS STRING:value SEMICOLON
+    {: 
+      System.out.println("📌 Variable: " + name + " = " + value);
+    :}
+  | LET IDENTIFIER:name EQUALS NUMBER:value SEMICOLON
+    {: 
+      System.out.println("📌 Variable: " + name + " = " + value);
+    :}
+  ;
+
+//variable list (optional)
+variable_list ::=
+    /* empty */
+  | variable_list variable_decl
   ;
 

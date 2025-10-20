@@ -34,6 +34,7 @@ STRING = \"([^\"\n\r\\]|\\[^\n\r])*\"
     "body" {return symbol(sym.BODY);}
     "header" {return symbol(sym.HEADER);}
     "contains" {return symbol(sym.CONTAINS);}
+    "let" {return symbol(sym.LET);}
     
     "=" {return symbol(sym.EQUALS);}
     "{" {return symbol(sym.LBRACE);}
