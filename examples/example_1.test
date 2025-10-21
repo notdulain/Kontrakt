@@ -1,0 +1,5 @@
+test GetUser {
+  GET "/api/users/42";
+  expect status = 200;
+  expect body contains "\"id\": 42";
+}

@@ -2,6 +2,7 @@
 JFLEX = java -jar lib/jflex-full-1.9.1.jar
 CUP = java -jar lib/java-cup-11b.jar
 CUPRUNTIME = lib/java-cup-11b-runtime.jar
+JUNIT_JAR = lib/junit-platform-console-standalone-1.10.1.jar
 
 SRC = src
 BIN = bin
@@ -31,6 +32,17 @@ compile:
 run:
 	@echo "▶️  Running on examples/example.test..."
 	java -cp "$(CUPRUNTIME):$(BIN)" Main examples/example.test
+
+compile-tests:
+	@echo "🔨 Compiling GeneratedTests.java..."
+	javac -cp "$(JUNIT_JAR):." GeneratedTests.java
+
+run-tests: compile-tests
+	@echo "🧪 Running tests..."
+	java -jar $(JUNIT_JAR) --class-path . --scan-class-path
+
+test-full: run compile-tests run-tests
+	@echo "✅ Full test pipeline complete!"
 
 clean:
 	rm -rf $(BIN)
