@@ -1,5 +1,6 @@
 import java.io.*;
 import java_cup.runtime.*;
+import ast.*;
 
 public class Main {
     public static void main(String[] args) {
@@ -7,21 +8,26 @@ public class Main {
         
         try {
             String filename = args.length > 0 ? args[0] : "examples/example.test";
-            //System.out.println("📖 Reading: " + filename + "\n");
             
             FileReader fileReader = new FileReader(filename);
-            
-            //using KontraktScanner
             KontraktScanner scanner = new KontraktScanner(fileReader);
-            //System.out.println("✅ Scanner created");
-            
             parser parser = new parser(scanner);
-            //System.out.println("✅ Parser created\n");
-            
-            //System.out.println("⚙️  Parsing...\n");
+
             Symbol result = parser.parse();
+            Program program = parser.getProgram();
             
             System.out.println("\n✅ Parsing completed successfully!");
+
+            //code generation
+            CodeGenerator generator = new CodeGenerator();
+            String javaCode = generator.generate(program);
+
+            // Write to a new file - GeneratedTests.java
+            try (FileWriter writer = new FileWriter("GeneratedTests.java")) {
+                writer.write(javaCode);
+            }
+
+            System.out.println("✅ Generated GeneratedTests.java");
             
         } catch (FileNotFoundException e) {
             System.err.println("❌ File not found: " + e.getMessage());

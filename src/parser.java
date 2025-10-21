@@ -31,9 +31,9 @@ public class parser extends java_cup.runtime.lr_parser {
   /** Production table. */
   protected static final short _production_table[][] = 
     unpackFromStrings(new String[] {
-    "\000\043\000\002\002\004\000\002\002\005\000\002\003" +
-    "\002\000\002\003\006\000\002\004\002\000\002\004\007" +
-    "\000\002\004\010\000\002\005\007\000\002\006\003\000" +
+    "\000\043\000\002\002\004\000\002\002\005\000\002\004" +
+    "\002\000\002\004\007\000\002\004\010\000\002\003\002" +
+    "\000\002\003\006\000\002\005\007\000\002\006\003\000" +
     "\002\006\004\000\002\007\005\000\002\007\010\000\002" +
     "\007\010\000\002\007\005\000\002\007\003\000\002\007" +
     "\005\000\002\007\010\000\002\007\010\000\002\007\005" +
@@ -49,7 +49,7 @@ public class parser extends java_cup.runtime.lr_parser {
   /** Parse-action table. */
   protected static final short[][] _action_table = 
     unpackFromStrings(new String[] {
-    "\000\126\000\010\004\004\005\uffff\027\uffff\001\002\000" +
+    "\000\126\000\010\004\004\005\ufffc\027\ufffc\001\002\000" +
     "\004\017\115\001\002\000\004\002\114\001\002\000\006" +
     "\005\uffe0\027\uffe0\001\002\000\006\005\012\027\011\001" +
     "\002\000\006\005\uffdf\027\uffdf\001\002\000\010\003\104" +
@@ -101,13 +101,13 @@ public class parser extends java_cup.runtime.lr_parser {
     "\006\014\111\016\110\001\002\000\004\021\113\001\002" +
     "\000\004\021\112\001\002\000\006\005\uffe3\027\uffe3\001" +
     "\002\000\006\005\uffe4\027\uffe4\001\002\000\004\002\001" +
-    "\001\002\000\010\007\ufffd\020\ufffd\025\ufffd\001\002\000" +
-    "\010\007\121\020\117\025\120\001\002\000\006\005\ufffe" +
-    "\027\ufffe\001\002\000\004\016\125\001\002\000\004\023" +
+    "\001\002\000\010\007\uffff\020\uffff\025\uffff\001\002\000" +
+    "\010\007\121\020\117\025\120\001\002\000\006\005\ufffb" +
+    "\027\ufffb\001\002\000\004\016\125\001\002\000\004\023" +
     "\122\001\002\000\004\016\123\001\002\000\004\021\124" +
-    "\001\002\000\010\007\ufffc\020\ufffc\025\ufffc\001\002\000" +
+    "\001\002\000\010\007\ufffe\020\ufffe\025\ufffe\001\002\000" +
     "\004\023\126\001\002\000\004\016\127\001\002\000\004" +
-    "\021\130\001\002\000\010\007\ufffb\020\ufffb\025\ufffb\001" +
+    "\021\130\001\002\000\010\007\ufffd\020\ufffd\025\ufffd\001" +
     "\002" });
 
   /** Access to parse-action table. */
@@ -263,44 +263,18 @@ class CUP$parser$actions {
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 2: // config_block ::= 
-            {
-              Config RESULT =null;
-		
-      RESULT = null;
-    
-              CUP$parser$result = parser.getSymbolFactory().newSymbol("config_block",1, ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
-            }
-          return CUP$parser$result;
-
-          /*. . . . . . . . . . . . . . . . . . . .*/
-          case 3: // config_block ::= CONFIG LBRACE config_items_list RBRACE 
-            {
-              Config RESULT =null;
-		int cfgleft = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).left;
-		int cfgright = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).right;
-		Config cfg = (Config)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-1)).value;
-		
-      RESULT = cfg;  // Return the Config object
-      System.out.println("⚙️  Config: " + cfg);
-    
-              CUP$parser$result = parser.getSymbolFactory().newSymbol("config_block",1, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-3)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
-            }
-          return CUP$parser$result;
-
-          /*. . . . . . . . . . . . . . . . . . . .*/
-          case 4: // config_items_list ::= 
+          case 2: // config_items_list ::= 
             {
               Config RESULT =null;
 		 
-      RESULT = new Config();  // start with empty config
+      RESULT = new Config();         // Step 1: Create empty Config
     
               CUP$parser$result = parser.getSymbolFactory().newSymbol("config_items_list",2, ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 5: // config_items_list ::= config_items_list BASE_URL EQUALS STRING SEMICOLON 
+          case 3: // config_items_list ::= config_items_list BASE_URL EQUALS STRING SEMICOLON 
             {
               Config RESULT =null;
 		int cfgleft = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-4)).left;
@@ -310,16 +284,16 @@ class CUP$parser$actions {
 		int urlright = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).right;
 		String url = (String)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-1)).value;
 		 
-      cfg.setBaseUrl(url);
+      cfg.setBaseUrl(url);           // Step 2: Add base_url to THIS Config
+      RESULT = cfg;                  // Step 3: Return the updated Config
       System.out.println("  🔗 base_url = " + url);
-      RESULT = cfg;
     
               CUP$parser$result = parser.getSymbolFactory().newSymbol("config_items_list",2, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-4)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 6: // config_items_list ::= config_items_list HEADER STRING EQUALS STRING SEMICOLON 
+          case 4: // config_items_list ::= config_items_list HEADER STRING EQUALS STRING SEMICOLON 
             {
               Config RESULT =null;
 		int cfgleft = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-5)).left;
@@ -332,11 +306,37 @@ class CUP$parser$actions {
 		int valueright = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).right;
 		String value = (String)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-1)).value;
 		 
-      cfg.addHeader(key, value);
+      cfg.addHeader(key, value);     // Step 2: Add header to THIS Config
       System.out.println("  📋 header " + key + " = " + value);
-      RESULT = cfg;
+      RESULT = cfg;                  // Step 3: Return the updated Config
     
               CUP$parser$result = parser.getSymbolFactory().newSymbol("config_items_list",2, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-5)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
+            }
+          return CUP$parser$result;
+
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 5: // config_block ::= 
+            {
+              Config RESULT =null;
+		
+      RESULT = null;
+    
+              CUP$parser$result = parser.getSymbolFactory().newSymbol("config_block",1, ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
+            }
+          return CUP$parser$result;
+
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 6: // config_block ::= CONFIG LBRACE config_items_list RBRACE 
+            {
+              Config RESULT =null;
+		int cfgleft = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).left;
+		int cfgright = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).right;
+		Config cfg = (Config)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-1)).value;
+		
+      RESULT = cfg;  // Return the built Config
+      System.out.println("⚙️  Config: " + cfg);
+    
+              CUP$parser$result = parser.getSymbolFactory().newSymbol("config_block",1, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-3)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
 

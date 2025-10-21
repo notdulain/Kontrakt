@@ -162,5 +162,32 @@ public class CodeGenerator {
                 break;
         }
     }
+
+    // --- Helper Methods ---
+
+    /**
+     * Variable substitution: replaces $var with its value
+     */
+    private String substitute(String input) {
+        if (input == null) return null;
+
+        String result = input;
+        for (Map.Entry<String, String> var : variables.entrySet()) {
+            result = result.replace("$" + var.getKey(), var.getValue());
+        }
+        return result;
+    }
+
+    /**
+     * Escapes string for Java source code
+     */
+    private String escapeJava(String s) {
+        if (s == null) return "";
+        return s.replace("\\", "\\\\")
+                .replace("\"", "\\\"")
+                .replace("\n", "\\n")
+                .replace("\r", "\\r")
+                .replace("\t", "\\t");
+    }
     
 }
