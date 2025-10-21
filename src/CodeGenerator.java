@@ -77,5 +77,22 @@ public class CodeGenerator {
 
         output.append("  }\n\n");
     }
+
+    private void visit(Test test) {
+        // Generate a new @Test method
+        output.append("  @Test\n");
+        output.append("  void test_" + test.getName() + "() throws Exception {\n");
+
+        // Visit all statements (requests and assertions) inside this test
+        for (Statement stmt : test.getStatements()) {
+            if (stmt instanceof Request) {
+                visit((Request) stmt);
+            } else if (stmt instanceof Assertion) {
+                visit((Assertion) stmt);
+            }
+        }
+
+        output.append("  }\n\n");
+    }
     
 }
