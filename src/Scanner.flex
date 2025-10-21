@@ -50,10 +50,18 @@ STRING = \"([^\"\n\r\\]|\\\"|\\\\)*\"
     {NUMBER} {return symbol(sym.NUMBER, yytext());}
     {IDENTIFIER} {return symbol(sym.IDENTIFIER, yytext());}
     {STRING} {
-                // This is how you pass the *value* (without quotes)
+                // Remove quotes AND unescape
                 String val = yytext().substring(1, yytext().length()-1);
+                
+                // Unescape common sequences
+                val = val.replace("\\\"", "\"")
+                        .replace("\\\\", "\\")
+                        .replace("\\n", "\n")
+                        .replace("\\r", "\r")
+                        .replace("\\t", "\t");
+                
                 return symbol(sym.STRING, val);
-            }
+              }
 
     [ \t\n] { /* ignore whitespace */ }
     "//" [^\n]* { /* ignore comments */ }

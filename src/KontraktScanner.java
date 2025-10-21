@@ -813,8 +813,16 @@ class KontraktScanner implements java_cup.runtime.Scanner {
           // fall through
           case 29: break;
           case 8:
-            { // This is how you pass the *value* (without quotes)
+            { // Remove quotes AND unescape
                 String val = yytext().substring(1, yytext().length()-1);
+                
+                // Unescape common sequences
+                val = val.replace("\\\"", "\"")
+                        .replace("\\\\", "\\")
+                        .replace("\\n", "\n")
+                        .replace("\\r", "\r")
+                        .replace("\\t", "\t");
+                
                 return symbol(sym.STRING, val);
             }
           // fall through
