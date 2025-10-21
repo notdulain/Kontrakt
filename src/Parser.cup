@@ -40,7 +40,6 @@ terminal LET;
 //non-terminals (grammar rules)
 non terminal Program program;
 non terminal Config config_block;
-non terminal config_item; // void (no return needed)
 non terminal Config config_items_list;
 non terminal Test test_block;
 non terminal test_block_list; // void (adds to program directly)
@@ -64,7 +63,27 @@ program ::=
     :}
   ;
 
-//config block (optional)
+//config items list - builds and returns a Config
+config_items_list ::=
+    /* empty */
+    {: 
+      RESULT = new Config();         // Step 1: Create empty Config
+    :}
+  | config_items_list:cfg BASE_URL EQUALS STRING:url SEMICOLON
+    {: 
+      cfg.setBaseUrl(url);           // Step 2: Add base_url to THIS Config
+      RESULT = cfg;                  // Step 3: Return the updated Config
+      System.out.println("  🔗 base_url = " + url);
+    :}
+  | config_items_list:cfg HEADER STRING:key EQUALS STRING:value SEMICOLON
+    {: 
+      cfg.addHeader(key, value);     // Step 2: Add header to THIS Config
+      System.out.println("  📋 header " + key + " = " + value);
+      RESULT = cfg;                  // Step 3: Return the updated Config
+    :}
+  ;
+
+// config_block just wraps it
 config_block ::=
     /* empty */
     {:
@@ -72,34 +91,8 @@ config_block ::=
     :}
   | CONFIG LBRACE config_items_list:cfg RBRACE
     {:
-      RESULT = cfg;  // Return the Config object
+      RESULT = cfg;  // Return the built Config
       System.out.println("⚙️  Config: " + cfg);
-    :}
-  ;
-
-//config items
-config_items_list ::=
-    /* empty */
-    {: 
-      RESULT = new Config();  // Return new empty Config
-    :}
-  | config_items_list:cfg config_item
-    {:
-      RESULT = cfg;  // Return the same Config (items already added)
-    :}
-  ;
-
-//config item
-config_item ::=
-    BASE_URL EQUALS STRING:url SEMICOLON
-    {: 
-      parser.program.getConfig().setBaseUrl(url);
-      System.out.println("  🔗 base_url = " + url);
-    :}
-  | HEADER STRING:key EQUALS STRING:value SEMICOLON
-    {: 
-      parser.program.getConfig().addHeader(key, value);
-      System.out.println("  📋 header " + key + " = " + value);
     :}
   ;
 
