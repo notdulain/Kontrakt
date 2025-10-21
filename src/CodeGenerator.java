@@ -78,6 +78,7 @@ public class CodeGenerator {
         output.append("  }\n\n");
     }
 
+    //visitor method for Test
     private void visit(Test test) {
         // Generate a new @Test method
         output.append("  @Test\n");
@@ -93,6 +94,54 @@ public class CodeGenerator {
         }
 
         output.append("  }\n\n");
+    }
+
+    //visitor method for Request
+    private void visit(Request req) {
+        // This is where we translate our Request AST node into HttpClient code
+        // *the most complex part
+
+        // Handle variable substitution first!
+        String path = substitute(req.getPath());
+
+        // Note: The spec example shows BASE + path.
+        // You must decide if the path is absolute or relative.
+        // A simple check:
+        String url;
+        if (path.startsWith("/")) {
+            url = "BASE + \"" + escapeJava(path) + "\"";
+        } else {
+            url = "\"" + escapeJava(path) + "\""; // Assumes it's a full URL
+        }
+
+        output.append("    HttpRequest.Builder b = HttpRequest.newBuilder(URI.create(" + url + "))\n");
+        output.append("      .timeout(Duration.ofSeconds(10))\n");
+
+        // Handle method
+        switch (req.getMethod()) {
+            case GET:
+                output.append("      .GET();\n");
+                break;
+            case POST:
+                String body = substitute(req.getBody());
+                output.append("      .POST(HttpRequest.BodyPublishers.ofString(\"" + escapeJava(body) + "\"));\n");
+                break;
+            case PUT:
+                String bodyPut = substitute(req.getBody());
+                output.append("      .PUT(HttpRequest.BodyPublishers.ofString(\"" + escapeJava(bodyPut) + "\"));\n");
+                break;
+            case DELETE:
+                output.append("      .DELETE();\n");
+                break;
+        }
+
+        // Add default headers (required by spec)
+        output.append("    for (var e: DEFAULT_HEADERS.entrySet()) b.header(e.getKey(), e.getValue());\n");
+
+        // TODO: Add request-specific headers (if your AST supports them)
+
+        // Send the request
+        output.append("    HttpResponse<String> resp = client.send(b.build(), HttpResponse.BodyHandlers.ofString(StandardCharsets.UTF_8));\n\n");
     }
     
 }
