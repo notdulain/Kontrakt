@@ -143,5 +143,24 @@ public class CodeGenerator {
         // Send the request
         output.append("    HttpResponse<String> resp = client.send(b.build(), HttpResponse.BodyHandlers.ofString(StandardCharsets.UTF_8));\n\n");
     }
+
+    //visitor method for Assertion
+    private void visit(Assertion ast) {
+        // This is a direct mapping from your Assertion AST node to a JUnit assertion
+        switch (ast.getType()) {
+            case STATUS:
+                output.append("    assertEquals(" + ast.getStatusCode() + ", resp.statusCode());\n");
+                break;
+            case BODY_CONTAINS:
+                output.append("    assertTrue(resp.body().contains(\"" + escapeJava(ast.getExpectedValue()) + "\"));\n");
+                break;
+            case HEADER_EQUALS:
+                output.append("    assertEquals(\"" + escapeJava(ast.getExpectedValue()) + "\", resp.headers().firstValue(\"" + escapeJava(ast.getHeaderName()) + "\").orElse(\"\"));\n");
+                break;
+            case HEADER_CONTAINS:
+                output.append("    assertTrue(resp.headers().firstValue(\"" + escapeJava(ast.getHeaderName()) + "\").orElse(\"\").contains(\"" + escapeJava(ast.getExpectedValue()) + "\"));\n");
+                break;
+        }
+    }
     
 }
