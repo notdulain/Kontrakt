@@ -1,7 +1,15 @@
 import java_cup.runtime.*;
+import ast.*;
+import java.util.*;
 
 //parser code section
 parser code {:
+  private Program program = new Program();
+  
+  public Program getProgram() {
+    return program;
+  }
+
   public void report_error(String message, Object info) {
     if (info == null) {
       System.err.println("Line ?: " + message);
@@ -30,70 +38,90 @@ terminal HEADER, CONTAINS;
 terminal LET;
 
 //non-terminals (grammar rules)
-non terminal program;
-non terminal config_block;
-non terminal config_item;
-non terminal config_items_list;
-non terminal test_block;
-non terminal test_block_list;
-non terminal statement;
-non terminal statement_list;
-non terminal assertion;
-non terminal request_body;
-non terminal variable_decl;
-non terminal variable_list;
+non terminal Program program;
+non terminal Config config_block;
+non terminal config_item; // void (no return needed)
+non terminal Config config_items_list;
+non terminal Test test_block;
+non terminal test_block_list; // void (adds to program directly)
+non terminal Statement statement;
+non terminal List<Statement> statement_list;
+non terminal Assertion assertion;
+non terminal String request_body; // returns body string or null
+non terminal Variable variable_decl;
+non terminal variable_list; // void (adds to program directly)
 
 //grammar
 start with program;
 
 //a program will be one or more test blocks
 program ::= 
-  config_block variable_list test_block_list
+  config_block:cfg variable_list test_block_list:tests
     {: 
-      System.out.println("✅ Parsed program with config-block, variables and tests"); 
+      parser.program.setConfig(cfg);
+      RESULT = parser.program;
+      System.out.println("✅ Built AST: " + RESULT);
     :}
   ;
 
 //config block (optional)
 config_block ::=
     /* empty */
-  | CONFIG LBRACE config_items_list RBRACE
-    {: 
-      System.out.println("⚙️  Config block parsed");
+    {:
+      RESULT = null;
+    :}
+  | CONFIG LBRACE config_items_list:cfg RBRACE
+    {:
+      RESULT = cfg;  // Return the Config object
+      System.out.println("⚙️  Config: " + cfg);
     :}
   ;
 
 //config items
 config_items_list ::=
     /* empty */
-  | config_items_list config_item
+    {: 
+      RESULT = new Config();  // Return new empty Config
+    :}
+  | config_items_list:cfg config_item
+    {:
+      RESULT = cfg;  // Return the same Config (items already added)
+    :}
   ;
 
 //config item
 config_item ::=
     BASE_URL EQUALS STRING:url SEMICOLON
     {: 
+      parser.program.getConfig().setBaseUrl(url);
       System.out.println("  🔗 base_url = " + url);
     :}
   | HEADER STRING:key EQUALS STRING:value SEMICOLON
     {: 
+      parser.program.getConfig().addHeader(key, value);
       System.out.println("  📋 header " + key + " = " + value);
     :}
   ;
 
 //the main segment of our DSL: "test Login {...}"
 test_block ::= 
-    TEST IDENTIFIER:name LBRACE statement_list RBRACE
+    TEST IDENTIFIER:name LBRACE statement_list:stmts RBRACE
     {: 
-      System.out.println("🧪 Test: " + name + "(multiple statements)");
-      //System.out.println("🎉 Test block parsed successfully!");
+      RESULT = new Test(name, stmts);
+      System.out.println("🧪 Test: " + RESULT);
     :}
   ;
 
 //handling one or more test blocks
 test_block_list ::=
-    test_block
-  | test_block_list test_block
+    test_block:t
+    {: 
+      parser.program.addTest(t); // No RESULT needed
+    :}
+  | test_block_list test_block:t
+    {: 
+      parser.program.addTest(t); // No RESULT needed
+    :}
   ;
 
 //statement rule
@@ -101,20 +129,31 @@ statement ::=
     GET STRING:path SEMICOLON
     {: 
       System.out.println("  📡 GET " + path);
+      RESULT = new Request(HttpMethod.GET, path);
     :}
-  | POST STRING:path LBRACE request_body RBRACE SEMICOLON
+  | POST STRING:path LBRACE request_body:body RBRACE SEMICOLON
     {: 
       System.out.println("  📡 POST " + path);
+      Request req = new Request(HttpMethod.POST, path);
+      if (body != null) req.setBody(body);
+      RESULT = req;
     :}
-  | PUT STRING:path LBRACE request_body RBRACE SEMICOLON
+  | PUT STRING:path LBRACE request_body:body RBRACE SEMICOLON
     {: 
       System.out.println("  📡 PUT " + path);
+      Request req = new Request(HttpMethod.PUT, path);
+      if (body != null) req.setBody(body);
+      RESULT = req;
     :}
   | DELETE STRING:path SEMICOLON
     {: 
       System.out.println("  📡 DELETE " + path);
+      RESULT = new Request(HttpMethod.DELETE, path);
     :}
-  | assertion
+  | assertion:a
+    {: 
+      RESULT = a;
+    :}
 
   //ERROR_RULE: missing semicolon after request
   | GET STRING:path error:e
@@ -144,13 +183,18 @@ statement ::=
 
 //statement_list can be one or more statements
 statement_list ::=
-    statement
+    statement:s
     {: 
       System.out.println("  → 1 statement parsed");
+      List<Statement> list = new ArrayList<>();
+      list.add(s);
+      RESULT = list;
     :}
-  | statement_list statement
+  | statement_list:list statement:s
     {: 
       System.out.println("  → Another statement parsed");
+      list.add(s);
+      RESULT = list;
     :}
   ;
 
@@ -159,6 +203,7 @@ assertion ::=
     EXPECT STATUS EQUALS NUMBER:code SEMICOLON
     {: 
       System.out.println("  ✓ Expect status = " + code);
+      RESULT = Assertion.status(Integer.parseInt(code));
     :}
 
   //ERROR_RULE: status must be an integer
@@ -171,14 +216,17 @@ assertion ::=
   | EXPECT BODY CONTAINS STRING:text SEMICOLON
     {: 
       System.out.println("  ✓ Expect body contains: " + text);
+      RESULT = Assertion.bodyContains(text);
     :}
   | EXPECT HEADER STRING:name EQUALS STRING:value SEMICOLON
     {: 
       System.out.println("  ✓ Expect header " + name + " = " + value);
+      RESULT = Assertion.headerEquals(name, value);
     :}
   | EXPECT HEADER STRING:name CONTAINS STRING:substr SEMICOLON
     {: 
       System.out.println("  ✓ Expect header " + name + " contains: " + substr);
+      RESULT = Assertion.headerContains(name, substr);
     :}
   ;
 
@@ -187,10 +235,12 @@ request_body ::=
     /* empty */
     {: 
       System.out.println("    (no req body)");
+      RESULT = null;
     :}
   | BODY EQUALS STRING:content SEMICOLON
     {: 
       System.out.println("    📄 body = " + content);
+      RESULT = content;
     :}
 
   //ERROR_RULE: Body must be a string
@@ -205,11 +255,13 @@ request_body ::=
 variable_decl ::=
     LET IDENTIFIER:name EQUALS STRING:value SEMICOLON
     {: 
-      System.out.println("📌 Variable: " + name + " = " + value);
+      RESULT = new Variable(name, value);
+      System.out.println("📌 Variable: " + RESULT);
     :}
   | LET IDENTIFIER:name EQUALS NUMBER:value SEMICOLON
     {: 
-      System.out.println("📌 Variable: " + name + " = " + value);
+      RESULT = new Variable(name, value);
+      System.out.println("📌 Variable: " + RESULT);
     :}
 
   // ERROR_RULE: Identifier cannot start with a digit
@@ -229,6 +281,11 @@ variable_decl ::=
 //variable list (optional)
 variable_list ::=
     /* empty */
-  | variable_list variable_decl
+    {: 
+      // No RESULT needed
+    :}
+  | variable_list variable_decl:var
+    {: 
+      parser.program.addVariable(var); // No RESULT needed
+    :}
   ;
-

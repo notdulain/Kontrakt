@@ -27,4 +27,10 @@ public class Request implements Statement {
     public void setBody(String body) {
         this.body = body;
     }
+
+    @Override
+    public String toString() {
+        return "Request(" + method + " " + path + 
+               (body != null ? " with body" : "") + ")";
+    }
 }
