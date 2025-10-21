@@ -1,5 +1,75 @@
-test GetUser {
-  GET "/api/users/42";
+config {
+  base_url = "http://localhost:8080";
+  header "Content-Type" = "application/json";
+  header "X-App" = "TestLangDemo";
+}
+
+// Test variables
+let username = "admin";
+let password = "1234";
+let user_id = 42;
+let delete_id = 99;
+
+// Test 1: Login
+test Login {
+  POST "/api/login" {
+    body = "{ \"username\": \"$username\", \"password\": \"$password\" }";
+  };
   expect status = 200;
+  expect header "Content-Type" contains "json";
+  expect body contains "\"success\": true";
+  expect body contains "\"token\":";
+  expect body contains "\"message\": \"Login successful\"";
+}
+
+// Test 2: Get User
+test GetUser {
+  GET "/api/users/$user_id";
+  expect status = 200;
+  expect header "Content-Type" contains "json";
   expect body contains "\"id\": 42";
+  expect body contains "\"username\": \"user42\"";
+  expect body contains "\"email\": \"user42@example.com\"";
+  expect body contains "\"role\": \"USER\"";
+}
+
+// Test 3: Update User
+test UpdateUser {
+  PUT "/api/users/$user_id" {
+    body = "{ \"role\": \"ADMIN\" }";
+  };
+  expect status = 200;
+  expect header "Content-Type" contains "json";
+  expect body contains "\"id\": 42";
+  expect body contains "\"updated\": true";
+  expect body contains "\"role\": \"ADMIN\"";
+  expect body contains "\"message\": \"User updated successfully\"";
+}
+
+// Test 4: Delete User
+test DeleteUser {
+  DELETE "/api/users/$delete_id";
+  expect status = 200;
+  expect header "Content-Type" contains "json";
+  expect body contains "\"id\": 99";
+  expect body contains "\"deleted\": true";
+  expect body contains "\"message\": \"User deleted successfully\"";
+}
+
+// Test 5: Get Non-Existent User (Error case)
+test GetNonExistentUser {
+  GET "/api/users/9999";
+  expect status = 404;
+  expect body contains "\"error\"";
+  expect body contains "\"not found\"";
+}
+
+// Test 6: Login with Invalid Credentials
+test LoginInvalidCredentials {
+  POST "/api/login" {
+    body = "{ \"username\": \"wrong\", \"password\": \"wrong\" }";
+  };
+  expect status = 401;
+  expect body contains "\"success\": false";
+  expect body contains "\"error\"";
 }

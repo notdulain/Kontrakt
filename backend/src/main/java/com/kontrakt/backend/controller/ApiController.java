@@ -16,30 +16,22 @@ public class ApiController {
     public ResponseEntity<Map<String, Object>> login(@RequestBody Map<String, String> credentials) {
         Map<String, Object> response = new HashMap<>();
 
-        response.put("message", "Login endpoint received credentials.");
-        response.put("status", "pending");
+        String username = credentials.get("username");
+        String password = credentials.get("password");
 
-        return ResponseEntity.ok()
-                .header("Content-Type", "application/json")
-                .body(response);
-
-//        String username = credentials.get("username");
-//        String password = credentials.get("password");
-
-
-        // Simple validation (for testing only!)
-//        if ("admin".equals(username) && "1234".equals(password)) {
-//            response.put("success", true);
-//            response.put("token", "abc123xyz789");
-//            response.put("message", "Login successful");
-//            return ResponseEntity.ok()
-//                    .header("Content-Type", "application/json")
-//                    .body(response);
-//        } else {
-//            response.put("success", false);
-//            response.put("message", "Invalid credentials");
-//            return ResponseEntity.status(401).body(response);
-//        }
+        //Simple validation (for testing only!)
+        if ("admin".equals(username) && "1234".equals(password)) {
+            response.put("success", true);
+            response.put("token", "abc123xyz789");
+            response.put("message", "Login successful");
+            return ResponseEntity.ok()
+                    .header("Content-Type", "application/json")
+                    .body(response);
+        } else {
+            response.put("success", false);
+            response.put("message", "Invalid credentials");
+            return ResponseEntity.status(401).body(response);
+        }
     }
 
     // GET /api/users/{id}

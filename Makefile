@@ -31,7 +31,7 @@ compile:
 
 run:
 	@echo "▶️  Running on examples/example.test..."
-	java -cp "$(CUPRUNTIME):$(BIN)" Main examples/example.test
+	java -cp "$(CUPRUNTIME):$(BIN)" Main examples/example_1.test
 
 compile-tests:
 	@echo "🔨 Compiling GeneratedTests.java..."
