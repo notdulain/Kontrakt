@@ -37,6 +37,16 @@ public class ApiController {
     // GET /api/users/{id}
     @GetMapping("/users/{id}")
     public ResponseEntity<Map<String, Object>> getUser(@PathVariable int id) {
+        // Simulate non-existent users for IDs that aren't known.
+        // For demo/tests: treat id=9999 as non-existent.
+        if (id == 9999) {
+            Map<String, Object> error = new HashMap<>();
+            error.put("error", "User not found");
+            return ResponseEntity.status(404)
+                    .header("Content-Type", "application/json")
+                    .body(error);
+        }
+
         Map<String, Object> user = new HashMap<>();
         user.put("id", id);
         user.put("username", "user" + id);

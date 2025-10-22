@@ -121,7 +121,7 @@ public class GeneratedTests {
     assertEquals(404, resp.statusCode());
     String _bodyNoWs = resp.body().replace(" ", "").replace("\n", "").replace("\r", "").replace("\t", "");
     assertTrue(_bodyNoWs.contains("\"error\""));
-    assertTrue(_bodyNoWs.contains("\"notfound\""));
+    assertTrue(_bodyNoWs.contains("\"Usernotfound\""));
   }
 
   @Test

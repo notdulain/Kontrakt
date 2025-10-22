@@ -56,12 +56,12 @@ test DeleteUser {
   expect body contains "\"message\": \"User deleted successfully\"";
 }
 
-// Test 5: Get Non-Existent User (Error case)
+// Test 5: Get Non-Existent User (Error case - only works for 9999)
 test GetNonExistentUser {
   GET "/api/users/9999";
   expect status = 404;
   expect body contains "\"error\"";
-  expect body contains "\"not found\"";
+  expect body contains "\"User not found\"";
 }
 
 // Test 6: Login with Invalid Credentials
