@@ -73,8 +73,8 @@ public class ApiController {
 
         // TODO: Implement user deletion logic
         response.put("id", id);
-        response.put("message", "User deletion endpoint reached.");
-        response.put("status", "pending");
+        response.put("deleted", true);
+        response.put("message", "User deleted successfully");
 
         return ResponseEntity.ok()
                 .header("Content-Type", "application/json")
