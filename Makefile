@@ -30,7 +30,7 @@ compile:
 	javac -cp "$(CUPRUNTIME):$(SRC)" -d $(BIN) $(SRC)/*.java
 
 run:
-	@echo "▶️  Running on examples/example.test..."
+	@echo "▶️  Running on examples/example_1.test..."
 	java -cp "$(CUPRUNTIME):$(BIN)" Main examples/example_1.test
 
 compile-tests:

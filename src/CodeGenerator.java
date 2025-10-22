@@ -9,6 +9,9 @@ public class CodeGenerator {
 
     //This map will be CRITICAL for Step 2
     private Map<String, String> variables = new HashMap<>();
+    // Tracks whether we've declared the normalized body variable for the
+    // current response in the current test method
+    private boolean bodyNormDeclaredForCurrentResp = false;
 
     // Main entry point
     public String generate(Program program){
@@ -61,7 +64,10 @@ public class CodeGenerator {
         // @BeforeAll setup method
         output.append("  @BeforeAll\n");
         output.append("  static void setup() {\n");
-        output.append("    client = HttpClient.newBuilder().connectTimeout(Duration.ofSeconds(5)).build();\n");
+        output.append("    client = HttpClient.newBuilder()\n");
+        output.append("      .version(HttpClient.Version.HTTP_1_1)\n");
+        output.append("      .connectTimeout(Duration.ofSeconds(5))\n");
+        output.append("      .build();\n");
 
         // NOW, use your Config AST!
         if (program.getConfig() != null) {
@@ -83,6 +89,7 @@ public class CodeGenerator {
         // Generate a new @Test method
         output.append("  @Test\n");
         output.append("  void test_" + test.getName() + "() throws Exception {\n");
+        bodyNormDeclaredForCurrentResp = false;
 
         // Visit all statements (requests and assertions) inside this test
         for (Statement stmt : test.getStatements()) {
@@ -114,6 +121,7 @@ public class CodeGenerator {
             url = "\"" + escapeJava(path) + "\""; // Assumes it's a full URL
         }
 
+        output.append("    System.out.println(\"--> " + req.getMethod() + " \" + " + url + ");\n");
         output.append("    HttpRequest.Builder b = HttpRequest.newBuilder(URI.create(" + url + "))\n");
         output.append("      .timeout(Duration.ofSeconds(10))\n");
 
@@ -125,10 +133,12 @@ public class CodeGenerator {
             case POST:
                 String body = substitute(req.getBody());
                 output.append("      .POST(HttpRequest.BodyPublishers.ofString(\"" + escapeJava(body) + "\"));\n");
+                output.append("    System.out.println(\"    body=\" + \"" + escapeJava(body) + "\");\n");
                 break;
             case PUT:
                 String bodyPut = substitute(req.getBody());
                 output.append("      .PUT(HttpRequest.BodyPublishers.ofString(\"" + escapeJava(bodyPut) + "\"));\n");
+                output.append("    System.out.println(\"    body=\" + \"" + escapeJava(bodyPut) + "\");\n");
                 break;
             case DELETE:
                 output.append("      .DELETE();\n");
@@ -137,11 +147,16 @@ public class CodeGenerator {
 
         // Add default headers (required by spec)
         output.append("    for (var e: DEFAULT_HEADERS.entrySet()) b.header(e.getKey(), e.getValue());\n");
+        output.append("    b.header(\"Accept\", \"application/json\");\n");
 
         // TODO: Add request-specific headers (if your AST supports them)
 
         // Send the request
-        output.append("    HttpResponse<String> resp = client.send(b.build(), HttpResponse.BodyHandlers.ofString(StandardCharsets.UTF_8));\n\n");
+        output.append("    HttpResponse<String> resp = client.send(b.build(), HttpResponse.BodyHandlers.ofString(StandardCharsets.UTF_8));\n");
+        output.append("    System.out.println(\"<-- status=\" + resp.statusCode());\n");
+        output.append("    System.out.println(resp.body());\n\n");
+        // New response means normalized body variable needs to be (re)declared
+        bodyNormDeclaredForCurrentResp = false;
     }
 
     //visitor method for Assertion
@@ -152,7 +167,14 @@ public class CodeGenerator {
                 output.append("    assertEquals(" + ast.getStatusCode() + ", resp.statusCode());\n");
                 break;
             case BODY_CONTAINS:
-                output.append("    assertTrue(resp.body().contains(\"" + escapeJava(ast.getExpectedValue()) + "\"));\n");
+                // Make body-contains assertions whitespace-insensitive.
+                // Declare normalized body once per response, then reuse.
+                if (!bodyNormDeclaredForCurrentResp) {
+                    output.append("    String _bodyNoWs = resp.body().replace(\" \", \"\").replace(\"\\n\", \"\").replace(\"\\r\", \"\").replace(\"\\t\", \"\");\n");
+                    bodyNormDeclaredForCurrentResp = true;
+                }
+                output.append("    assertTrue(_bodyNoWs.contains(\""
+                              + escapeJava(ast.getExpectedValue()).replaceAll("\\s+", "") + "\"));\n");
                 break;
             case HEADER_EQUALS:
                 output.append("    assertEquals(\"" + escapeJava(ast.getExpectedValue()) + "\", resp.headers().firstValue(\"" + escapeJava(ast.getHeaderName()) + "\").orElse(\"\"));\n");
