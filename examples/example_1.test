@@ -71,5 +71,5 @@ test LoginInvalidCredentials {
   };
   expect status = 401;
   expect body contains "\"success\": false";
-  expect body contains "\"error\"";
+  expect body contains "\"message\": \"Invalid credentials\"";
 }

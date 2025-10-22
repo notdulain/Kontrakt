@@ -140,7 +140,7 @@ public class GeneratedTests {
     assertEquals(401, resp.statusCode());
     String _bodyNoWs = resp.body().replace(" ", "").replace("\n", "").replace("\r", "").replace("\t", "");
     assertTrue(_bodyNoWs.contains("\"success\":false"));
-    assertTrue(_bodyNoWs.contains("\"error\""));
+    assertTrue(_bodyNoWs.contains("\"message\":\"Invalidcredentials\""));
   }
 
 }
