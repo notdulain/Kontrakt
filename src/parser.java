@@ -256,7 +256,7 @@ class CUP$parser$actions {
 		 
       parser.program.setConfig(cfg);
       RESULT = parser.program;
-      System.out.println("✅ Built AST: " + RESULT);
+      //System.out.println("✅ Built AST: " + RESULT);
     
               CUP$parser$result = parser.getSymbolFactory().newSymbol("program",0, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-2)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
@@ -286,7 +286,7 @@ class CUP$parser$actions {
 		 
       cfg.setBaseUrl(url);           // Step 2: Add base_url to THIS Config
       RESULT = cfg;                  // Step 3: Return the updated Config
-      System.out.println("  🔗 base_url = " + url);
+      //System.out.println("  🔗 base_url = " + url);
     
               CUP$parser$result = parser.getSymbolFactory().newSymbol("config_items_list",2, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-4)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
@@ -307,7 +307,7 @@ class CUP$parser$actions {
 		String value = (String)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-1)).value;
 		 
       cfg.addHeader(key, value);     // Step 2: Add header to THIS Config
-      System.out.println("  📋 header " + key + " = " + value);
+      //System.out.println("  📋 header " + key + " = " + value);
       RESULT = cfg;                  // Step 3: Return the updated Config
     
               CUP$parser$result = parser.getSymbolFactory().newSymbol("config_items_list",2, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-5)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
@@ -334,7 +334,7 @@ class CUP$parser$actions {
 		Config cfg = (Config)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-1)).value;
 		
       RESULT = cfg;  // Return the built Config
-      System.out.println("⚙️  Config: " + cfg);
+      //System.out.println("⚙️  Config: " + cfg);
     
               CUP$parser$result = parser.getSymbolFactory().newSymbol("config_block",1, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-3)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
@@ -352,7 +352,7 @@ class CUP$parser$actions {
 		List<Statement> stmts = (List<Statement>)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-1)).value;
 		 
       RESULT = new Test(name, stmts);
-      System.out.println("🧪 Test: " + RESULT);
+      //System.out.println("🧪 Test: " + RESULT);
     
               CUP$parser$result = parser.getSymbolFactory().newSymbol("test_block",3, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-4)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
@@ -394,7 +394,7 @@ class CUP$parser$actions {
 		int pathright = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).right;
 		String path = (String)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-1)).value;
 		 
-      System.out.println("  📡 GET " + path);
+      //System.out.println("  📡 GET " + path);
       RESULT = new Request(HttpMethod.GET, path);
     
               CUP$parser$result = parser.getSymbolFactory().newSymbol("statement",5, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-2)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
@@ -412,7 +412,7 @@ class CUP$parser$actions {
 		int bodyright = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-2)).right;
 		String body = (String)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-2)).value;
 		 
-      System.out.println("  📡 POST " + path);
+      //System.out.println("  📡 POST " + path);
       Request req = new Request(HttpMethod.POST, path);
       if (body != null) req.setBody(body);
       RESULT = req;
@@ -432,7 +432,7 @@ class CUP$parser$actions {
 		int bodyright = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-2)).right;
 		String body = (String)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-2)).value;
 		 
-      System.out.println("  📡 PUT " + path);
+      //System.out.println("  📡 PUT " + path);
       Request req = new Request(HttpMethod.PUT, path);
       if (body != null) req.setBody(body);
       RESULT = req;
@@ -449,7 +449,7 @@ class CUP$parser$actions {
 		int pathright = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).right;
 		String path = (String)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-1)).value;
 		 
-      System.out.println("  📡 DELETE " + path);
+      //System.out.println("  📡 DELETE " + path);
       RESULT = new Request(HttpMethod.DELETE, path);
     
               CUP$parser$result = parser.getSymbolFactory().newSymbol("statement",5, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-2)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
@@ -547,7 +547,7 @@ class CUP$parser$actions {
 		int sright = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).right;
 		Statement s = (Statement)((java_cup.runtime.Symbol) CUP$parser$stack.peek()).value;
 		 
-      System.out.println("  → 1 statement parsed");
+     //System.out.println("  → 1 statement parsed");
       List<Statement> list = new ArrayList<>();
       list.add(s);
       RESULT = list;
@@ -567,7 +567,7 @@ class CUP$parser$actions {
 		int sright = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).right;
 		Statement s = (Statement)((java_cup.runtime.Symbol) CUP$parser$stack.peek()).value;
 		 
-      System.out.println("  → Another statement parsed");
+      //System.out.println("  → Another statement parsed");
       list.add(s);
       RESULT = list;
     
@@ -583,7 +583,7 @@ class CUP$parser$actions {
 		int coderight = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).right;
 		String code = (String)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-1)).value;
 		 
-      System.out.println("  ✓ Expect status = " + code);
+      //System.out.println("  ✓ Expect status = " + code);
       RESULT = Assertion.status(Integer.parseInt(code));
     
               CUP$parser$result = parser.getSymbolFactory().newSymbol("assertion",7, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-4)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
@@ -613,7 +613,7 @@ class CUP$parser$actions {
 		int textright = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).right;
 		String text = (String)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-1)).value;
 		 
-      System.out.println("  ✓ Expect body contains: " + text);
+      //System.out.println("  ✓ Expect body contains: " + text);
       RESULT = Assertion.bodyContains(text);
     
               CUP$parser$result = parser.getSymbolFactory().newSymbol("assertion",7, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-4)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
@@ -631,7 +631,7 @@ class CUP$parser$actions {
 		int valueright = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).right;
 		String value = (String)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-1)).value;
 		 
-      System.out.println("  ✓ Expect header " + name + " = " + value);
+      //System.out.println("  ✓ Expect header " + name + " = " + value);
       RESULT = Assertion.headerEquals(name, value);
     
               CUP$parser$result = parser.getSymbolFactory().newSymbol("assertion",7, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-5)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
@@ -649,7 +649,7 @@ class CUP$parser$actions {
 		int substrright = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).right;
 		String substr = (String)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-1)).value;
 		 
-      System.out.println("  ✓ Expect header " + name + " contains: " + substr);
+      //System.out.println("  ✓ Expect header " + name + " contains: " + substr);
       RESULT = Assertion.headerContains(name, substr);
     
               CUP$parser$result = parser.getSymbolFactory().newSymbol("assertion",7, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-5)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
@@ -661,7 +661,7 @@ class CUP$parser$actions {
             {
               String RESULT =null;
 		 
-      System.out.println("    (no req body)");
+      //System.out.println("    (no req body)");
       RESULT = null;
     
               CUP$parser$result = parser.getSymbolFactory().newSymbol("request_body",8, ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
@@ -676,7 +676,7 @@ class CUP$parser$actions {
 		int contentright = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).right;
 		String content = (String)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-1)).value;
 		 
-      System.out.println("    📄 body = " + content);
+      //System.out.println("    📄 body = " + content);
       RESULT = content;
     
               CUP$parser$result = parser.getSymbolFactory().newSymbol("request_body",8, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-3)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
@@ -710,7 +710,7 @@ class CUP$parser$actions {
 		String value = (String)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-1)).value;
 		 
       RESULT = new Variable(name, value);
-      System.out.println("📌 Variable: " + RESULT);
+      //System.out.println("📌 Variable: " + RESULT);
     
               CUP$parser$result = parser.getSymbolFactory().newSymbol("variable_decl",9, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-4)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
@@ -728,7 +728,7 @@ class CUP$parser$actions {
 		String value = (String)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-1)).value;
 		 
       RESULT = new Variable(name, value);
-      System.out.println("📌 Variable: " + RESULT);
+      //System.out.println("📌 Variable: " + RESULT);
     
               CUP$parser$result = parser.getSymbolFactory().newSymbol("variable_decl",9, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-4)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }

@@ -59,7 +59,7 @@ program ::=
     {: 
       parser.program.setConfig(cfg);
       RESULT = parser.program;
-      System.out.println("✅ Built AST: " + RESULT);
+      //System.out.println("✅ Built AST: " + RESULT);
     :}
   ;
 
@@ -73,12 +73,12 @@ config_items_list ::=
     {: 
       cfg.setBaseUrl(url);           // Step 2: Add base_url to THIS Config
       RESULT = cfg;                  // Step 3: Return the updated Config
-      System.out.println("  🔗 base_url = " + url);
+      //System.out.println("  🔗 base_url = " + url);
     :}
   | config_items_list:cfg HEADER STRING:key EQUALS STRING:value SEMICOLON
     {: 
       cfg.addHeader(key, value);     // Step 2: Add header to THIS Config
-      System.out.println("  📋 header " + key + " = " + value);
+      //System.out.println("  📋 header " + key + " = " + value);
       RESULT = cfg;                  // Step 3: Return the updated Config
     :}
   ;
@@ -92,7 +92,7 @@ config_block ::=
   | CONFIG LBRACE config_items_list:cfg RBRACE
     {:
       RESULT = cfg;  // Return the built Config
-      System.out.println("⚙️  Config: " + cfg);
+      //System.out.println("⚙️  Config: " + cfg);
     :}
   ;
 
@@ -101,7 +101,7 @@ test_block ::=
     TEST IDENTIFIER:name LBRACE statement_list:stmts RBRACE
     {: 
       RESULT = new Test(name, stmts);
-      System.out.println("🧪 Test: " + RESULT);
+      //System.out.println("🧪 Test: " + RESULT);
     :}
   ;
 
@@ -121,26 +121,26 @@ test_block_list ::=
 statement ::=
     GET STRING:path SEMICOLON
     {: 
-      System.out.println("  📡 GET " + path);
+      //System.out.println("  📡 GET " + path);
       RESULT = new Request(HttpMethod.GET, path);
     :}
   | POST STRING:path LBRACE request_body:body RBRACE SEMICOLON
     {: 
-      System.out.println("  📡 POST " + path);
+      //System.out.println("  📡 POST " + path);
       Request req = new Request(HttpMethod.POST, path);
       if (body != null) req.setBody(body);
       RESULT = req;
     :}
   | PUT STRING:path LBRACE request_body:body RBRACE SEMICOLON
     {: 
-      System.out.println("  📡 PUT " + path);
+      //System.out.println("  📡 PUT " + path);
       Request req = new Request(HttpMethod.PUT, path);
       if (body != null) req.setBody(body);
       RESULT = req;
     :}
   | DELETE STRING:path SEMICOLON
     {: 
-      System.out.println("  📡 DELETE " + path);
+      //System.out.println("  📡 DELETE " + path);
       RESULT = new Request(HttpMethod.DELETE, path);
     :}
   | assertion:a
@@ -178,14 +178,14 @@ statement ::=
 statement_list ::=
     statement:s
     {: 
-      System.out.println("  → 1 statement parsed");
+     //System.out.println("  → 1 statement parsed");
       List<Statement> list = new ArrayList<>();
       list.add(s);
       RESULT = list;
     :}
   | statement_list:list statement:s
     {: 
-      System.out.println("  → Another statement parsed");
+      //System.out.println("  → Another statement parsed");
       list.add(s);
       RESULT = list;
     :}
@@ -195,7 +195,7 @@ statement_list ::=
 assertion ::=
     EXPECT STATUS EQUALS NUMBER:code SEMICOLON
     {: 
-      System.out.println("  ✓ Expect status = " + code);
+      //System.out.println("  ✓ Expect status = " + code);
       RESULT = Assertion.status(Integer.parseInt(code));
     :}
 
@@ -208,17 +208,17 @@ assertion ::=
 
   | EXPECT BODY CONTAINS STRING:text SEMICOLON
     {: 
-      System.out.println("  ✓ Expect body contains: " + text);
+      //System.out.println("  ✓ Expect body contains: " + text);
       RESULT = Assertion.bodyContains(text);
     :}
   | EXPECT HEADER STRING:name EQUALS STRING:value SEMICOLON
     {: 
-      System.out.println("  ✓ Expect header " + name + " = " + value);
+      //System.out.println("  ✓ Expect header " + name + " = " + value);
       RESULT = Assertion.headerEquals(name, value);
     :}
   | EXPECT HEADER STRING:name CONTAINS STRING:substr SEMICOLON
     {: 
-      System.out.println("  ✓ Expect header " + name + " contains: " + substr);
+      //System.out.println("  ✓ Expect header " + name + " contains: " + substr);
       RESULT = Assertion.headerContains(name, substr);
     :}
   ;
@@ -227,12 +227,12 @@ assertion ::=
 request_body ::=
     /* empty */
     {: 
-      System.out.println("    (no req body)");
+      //System.out.println("    (no req body)");
       RESULT = null;
     :}
   | BODY EQUALS STRING:content SEMICOLON
     {: 
-      System.out.println("    📄 body = " + content);
+      //System.out.println("    📄 body = " + content);
       RESULT = content;
     :}
 
@@ -249,12 +249,12 @@ variable_decl ::=
     LET IDENTIFIER:name EQUALS STRING:value SEMICOLON
     {: 
       RESULT = new Variable(name, value);
-      System.out.println("📌 Variable: " + RESULT);
+      //System.out.println("📌 Variable: " + RESULT);
     :}
   | LET IDENTIFIER:name EQUALS NUMBER:value SEMICOLON
     {: 
       RESULT = new Variable(name, value);
-      System.out.println("📌 Variable: " + RESULT);
+      //System.out.println("📌 Variable: " + RESULT);
     :}
 
   // ERROR_RULE: Identifier cannot start with a digit
