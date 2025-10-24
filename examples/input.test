@@ -1,0 +1,23 @@
+config {
+  base_url = "http://localhost:8080";
+  header "Content-Type" = "application/json";
+}
+
+// variables
+let user = "admin";
+let id = 42;
+
+test Login {
+  POST "/api/login" {
+    body = "{ \"username\": \"$user\", \"password\": \"1234\" }";
+  }
+  expect status = 200;
+  expect header "Content-Type" contains "json";
+  expect body contains "\"token\":";
+}
+
+test GetUser {
+  GET "/api/users/$id";
+  expect status = 200;
+  expect body contains "\"id\": 42";
+}

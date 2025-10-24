@@ -166,6 +166,10 @@ public class CodeGenerator {
             case STATUS:
                 output.append("    assertEquals(" + ast.getStatusCode() + ", resp.statusCode());\n");
                 break;
+            case STATUS_RANGE:
+                output.append("    assertTrue(resp.statusCode() >= " + ast.getMinStatus()
+                        + " && resp.statusCode() <= " + ast.getMaxStatus() + ");\n");
+                break;
             case BODY_CONTAINS:
                 // Make body-contains assertions whitespace-insensitive.
                 // Declare normalized body once per response, then reuse.

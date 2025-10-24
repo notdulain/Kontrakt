@@ -3,15 +3,15 @@ config {
   header "Content-Type" = "application/json";
 }
 
-let 2username = "admin";
+let username = "admin";
 let password = "1234";
 
 // Test 1: Login
 test Login {
   POST "/api/login" {
     body = "{ \"username\": \"$username\", \"password\": \"$password\" }";
-  }
-  expect status = "200";
+  };
+  expect status = 200;
   expect header "Content-Type" contains "json";
   expect body contains "\"success\": true";
   expect body contains "\"token\":";
