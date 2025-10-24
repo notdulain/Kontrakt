@@ -8,6 +8,7 @@ import java_cup.runtime.*;
 %cup
 %line
 %column
+%state TRIPLE
 
 %{
   private Symbol symbol(int type) {
@@ -16,6 +17,8 @@ import java_cup.runtime.*;
   private Symbol symbol(int type, Object value) {
     return new Symbol(type, yyline, yycolumn, value);
   }
+
+  private StringBuilder tripleBuffer = new StringBuilder();
 %}
 
 //Macros
@@ -49,6 +52,11 @@ STRING = \"([^\"\n\r\\]|\\\"|\\\\)*\"
     "PUT" {return symbol(sym.PUT);}
     "DELETE" {return symbol(sym.DELETE);}
 
+    \"\"\" {
+              tripleBuffer.setLength(0);
+              yybegin(TRIPLE);
+            }
+
     {NUMBER} {return symbol(sym.NUMBER, yytext());}
     {IDENTIFIER} {return symbol(sym.IDENTIFIER, yytext());}
     {STRING} {
@@ -67,4 +75,20 @@ STRING = \"([^\"\n\r\\]|\\\"|\\\\)*\"
 
     [ \t\n] { /* ignore whitespace */ }
     "//" [^\n]* { /* ignore comments */ }
+}
+
+<TRIPLE>{
+  \"\"\" {
+    yybegin(YYINITIAL);
+    return symbol(sym.STRING, tripleBuffer.toString());
+  }
+  \\\" { tripleBuffer.append('"'); }
+  \\\\ { tripleBuffer.append('\\'); }
+  \r\n  { tripleBuffer.append('\n'); }
+  \n    { tripleBuffer.append('\n'); }
+  .     { tripleBuffer.append(yytext()); }
+  <<EOF>> {
+    yybegin(YYINITIAL);
+    throw new Error("Unterminated triple-quoted string");
+  }
 }

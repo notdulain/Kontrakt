@@ -26,8 +26,8 @@ public class GeneratedTests {
     System.out.println("--> POST " + BASE + "/api/login");
     HttpRequest.Builder b = HttpRequest.newBuilder(URI.create(BASE + "/api/login"))
       .timeout(Duration.ofSeconds(10))
-      .POST(HttpRequest.BodyPublishers.ofString("{ \"username\": \"admin\", \"password\": \"1234\" }"));
-    System.out.println("    body=" + "{ \"username\": \"admin\", \"password\": \"1234\" }");
+      .POST(HttpRequest.BodyPublishers.ofString("\n    {\n        \"username\": \"admin\",\n        \"password\": \"1234\"\n    }\n    "));
+    System.out.println("    body=" + "\n    {\n        \"username\": \"admin\",\n        \"password\": \"1234\"\n    }\n    ");
     for (var e: DEFAULT_HEADERS.entrySet()) b.header(e.getKey(), e.getValue());
     b.header("Accept", "application/json");
     HttpResponse<String> resp = client.send(b.build(), HttpResponse.BodyHandlers.ofString(StandardCharsets.UTF_8));
