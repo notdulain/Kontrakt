@@ -184,24 +184,45 @@ public class parser extends java_cup.runtime.lr_parser {
 
 
   private Program program = new Program();
+  private boolean hadErrors = false;
   
   public Program getProgram() {
     return program;
   }
+  public boolean hadErrors() { return hadErrors; }
 
+  @Override
   public void report_error(String message, Object info) {
-    if (info == null) {
-      System.err.println("Line ?: " + message);
-      return;
+    hadErrors = true;
+
+    int lineNum = -1;
+    if (info instanceof Symbol) {
+      Symbol s = (Symbol) info;
+      lineNum = s.left + 1;
+    } else if (this.cur_token != null) {
+      lineNum = this.cur_token.left + 1;
     }
-    Symbol s = (Symbol) info;
-    int line = (s.left) + 1; 
-    System.err.println("Line " + line + ": " + message);
+
+    if (lineNum >= 0) System.err.println("Line " + lineNum + ": " + message);
+    else System.err.println("Line ?: " + message);
   }
   
+  @Override
   public void report_fatal_error(String message, Object info) {
     report_error(message, info);
-    System.exit(1);
+  }
+
+  // Suppress CUP's generic syntax error; rely on specific error rules.
+  @Override
+  public void syntax_error(Symbol cur_token) {
+    // no-op
+  }
+
+  // When CUP can't recover, throw a simple exception without printing
+  // the huge expected-classes list. Main will handle exit.
+  @Override
+  public void unrecovered_syntax_error(Symbol cur_token) throws Exception {
+    throw new Exception("parse failed");
   }
 
 
@@ -738,11 +759,16 @@ class CUP$parser$actions {
           case 31: // variable_decl ::= LET NUMBER 
             {
               Variable RESULT =null;
+		int kwleft = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).left;
+		int kwright = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).right;
+		Object kw = (Object)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-1)).value;
 		int badleft = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).left;
 		int badright = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).right;
 		String bad = (String)((java_cup.runtime.Symbol) CUP$parser$stack.peek()).value;
 		
-      parser.report_error("expected IDENT after 'let'", bad);
+      // Point error to the 'let' keyword line for consistency
+      parser.report_error("expected IDENT after 'let'", kw);
+      done_parsing();
     
               CUP$parser$result = parser.getSymbolFactory().newSymbol("variable_decl",9, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
@@ -752,12 +778,15 @@ class CUP$parser$actions {
           case 32: // variable_decl ::= LET error 
             {
               Variable RESULT =null;
+		int kwleft = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).left;
+		int kwright = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).right;
+		Object kw = (Object)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-1)).value;
 		int eleft = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).right;
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$parser$stack.peek()).value;
-		 
-      int line = ((Symbol)e).left + 1;
-      parser.report_error("expected IDENT after 'let' at line " + line, e);
+		
+      parser.report_error("expected IDENT after 'let'", kw);
+      done_parsing();
     
               CUP$parser$result = parser.getSymbolFactory().newSymbol("variable_decl",9, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }

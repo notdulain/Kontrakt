@@ -5,24 +5,45 @@ import java.util.*;
 //parser code section
 parser code {:
   private Program program = new Program();
+  private boolean hadErrors = false;
   
   public Program getProgram() {
     return program;
   }
+  public boolean hadErrors() { return hadErrors; }
 
+  @Override
   public void report_error(String message, Object info) {
-    if (info == null) {
-      System.err.println("Line ?: " + message);
-      return;
+    hadErrors = true;
+
+    int lineNum = -1;
+    if (info instanceof Symbol) {
+      Symbol s = (Symbol) info;
+      lineNum = s.left + 1;
+    } else if (this.cur_token != null) {
+      lineNum = this.cur_token.left + 1;
     }
-    Symbol s = (Symbol) info;
-    int line = (s.left) + 1; 
-    System.err.println("Line " + line + ": " + message);
+
+    if (lineNum >= 0) System.err.println("Line " + lineNum + ": " + message);
+    else System.err.println("Line ?: " + message);
   }
   
+  @Override
   public void report_fatal_error(String message, Object info) {
     report_error(message, info);
-    System.exit(1);
+  }
+
+  // Suppress CUP's generic syntax error; rely on specific error rules.
+  @Override
+  public void syntax_error(Symbol cur_token) {
+    // no-op
+  }
+
+  // When CUP can't recover, throw a simple exception without printing
+  // the huge expected-classes list. Main will handle exit.
+  @Override
+  public void unrecovered_syntax_error(Symbol cur_token) throws Exception {
+    throw new Exception("parse failed");
   }
 :}
 
@@ -258,16 +279,18 @@ variable_decl ::=
     :}
 
   // ERROR_RULE: Identifier cannot start with a digit
-  | LET NUMBER:bad
+  | LET:kw NUMBER:bad
     {:
-      parser.report_error("expected IDENT after 'let'", bad);
+      // Point error to the 'let' keyword line for consistency
+      parser.report_error("expected IDENT after 'let'", kw);
+      done_parsing();
     :}
 
-  //ERROR_RULE: Identifier cannot start with a digit
-  | LET error:e
-    {: 
-      int line = ((Symbol)e).left + 1;
-      parser.report_error("expected IDENT after 'let' at line " + line, e);
+  // ERROR_RULE: Identifier cannot start with a digit or other invalid token
+  | LET:kw error:e
+    {:
+      parser.report_error("expected IDENT after 'let'", kw);
+      done_parsing();
     :}
   ;
 
