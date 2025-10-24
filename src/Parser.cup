@@ -175,28 +175,31 @@ statement ::=
     :}
 
   //ERROR_RULE: missing semicolon after request
-  | GET STRING:path error:e
+  | GET:kw STRING:path error:e
     {:
-      int line = ((Symbol)e).left + 1;
-      parser.report_error("expected ';' after request at line " + line, e);
+      errorAt("expected ';' after request", kwleft, kwleft);
+      done_parsing();
     :}
 
   // ERROR_RULE: missing semicolon after POST request
-  | POST STRING:path LBRACE request_body RBRACE error:e
+  | POST STRING:path LBRACE request_body RBRACE:rb error:e
     {:
-      parser.report_error("expected ';' after request", e);
+      errorAt("expected ';' after request", rbleft, rbleft);
+      done_parsing();
     :}
 
   // ERROR_RULE: missing semicolon after PUT request
-  | PUT STRING:path LBRACE request_body RBRACE error:e
+  | PUT:kw STRING:path LBRACE request_body RBRACE:rb error:e
     {:
-      parser.report_error("expected ';' after request", e);
+      errorAt("expected ';' after request", rbleft, rbleft);
+      done_parsing();
     :}
 
   // ERROR_RULE: missing semicolon after DELETE request
-  | DELETE STRING:path error:e
+  | DELETE:kw STRING:path error:e
     {:
-      parser.report_error("expected ';' after request", e);
+      errorAt("expected ';' after request", kwleft, kwleft);
+      done_parsing();
     :}
   ;
 

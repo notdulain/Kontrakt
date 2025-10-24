@@ -10,7 +10,7 @@ let password = "1234";
 test Login {
   POST "/api/login" {
     body = "{ \"username\": \"$username\", \"password\": \"$password\" }";
-  };
+  }
   expect status = "200";
   expect header "Content-Type" contains "json";
   expect body contains "\"success\": true";
