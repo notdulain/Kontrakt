@@ -30,8 +30,26 @@ compile:
 	javac -cp "$(CUPRUNTIME):$(SRC)" -d $(BIN) $(SRC)/*.java
 
 run:
-	@echo "▶️  Running on the .test file..."
+	@echo "▶️  Running on the example_1.test file..."
+	java -cp "$(CUPRUNTIME):$(BIN)" Main examples/example_1.test
+
+test-example-1:
+	@echo "▶️  Running on the example_1.test file..."
+	java -cp "$(CUPRUNTIME):$(BIN)" Main examples/example_1.test
+	javac -cp "$(JUNIT_JAR):." GeneratedTests.java
+	java -jar $(JUNIT_JAR) --class-path . --scan-class-path
+
+test-example-2:
+	@echo "▶️  Running on the example_1.test file..."
 	java -cp "$(CUPRUNTIME):$(BIN)" Main examples/example_2.test
+	javac -cp "$(JUNIT_JAR):." GeneratedTests.java
+	java -jar $(JUNIT_JAR) --class-path . --scan-class-path
+
+test-assignment:
+	@echo "▶️  Running on the assignment.test file..."
+	java -cp "$(CUPRUNTIME):$(BIN)" Main examples/assignment.test
+	javac -cp "$(JUNIT_JAR):." GeneratedTests.java
+	java -jar $(JUNIT_JAR) --class-path . --scan-class-path
 
 compile-tests:
 	@echo "🔨 Compiling GeneratedTests.java..."

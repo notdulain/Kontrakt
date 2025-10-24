@@ -14,7 +14,7 @@ let delete_id = 99;
 test Login {
   POST "/api/login" {
     body = "{ \"username\": \"$username\", \"password\": \"$password\" }";
-  };
+  }
   expect status = 200;
   expect header "Content-Type" contains "json";
   expect body contains "\"success\": true";
@@ -37,7 +37,7 @@ test GetUser {
 test UpdateUser {
   PUT "/api/users/$user_id" {
     body = "{ \"role\": \"ADMIN\" }";
-  };
+  }
   expect status = 200;
   expect header "Content-Type" contains "json";
   expect body contains "\"id\": 42";
@@ -68,7 +68,7 @@ test GetNonExistentUser {
 test LoginInvalidCredentials {
   POST "/api/login" {
     body = "{ \"username\": \"wrong\", \"password\": \"wrong\" }";
-  };
+  }
   expect status = 401;
   expect body contains "\"success\": false";
   expect body contains "\"message\": \"Invalid credentials\"";
