@@ -511,7 +511,7 @@ class CUP$parser$actions {
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$parser$stack.peek()).value;
 		
       errorAt("expected ';' after request", kwleft, kwleft);
-      done_parsing();
+      //done_parsing();
     
               CUP$parser$result = parser.getSymbolFactory().newSymbol("statement",5, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-2)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
@@ -532,7 +532,7 @@ class CUP$parser$actions {
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$parser$stack.peek()).value;
 		
       errorAt("expected ';' after request", rbleft, rbleft);
-      done_parsing();
+      //done_parsing();
     
               CUP$parser$result = parser.getSymbolFactory().newSymbol("statement",5, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-5)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
@@ -548,12 +548,15 @@ class CUP$parser$actions {
 		int pathleft = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-4)).left;
 		int pathright = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-4)).right;
 		String path = (String)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-4)).value;
+		int rbleft = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).left;
+		int rbright = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).right;
+		Object rb = (Object)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-1)).value;
 		int eleft = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).right;
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$parser$stack.peek()).value;
 		
-      errorAt("expected ';' after request", kwleft, kwleft);
-      done_parsing();
+      errorAt("expected ';' after request", rbleft, rbleft);
+      //done_parsing();
     
               CUP$parser$result = parser.getSymbolFactory().newSymbol("statement",5, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-5)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
@@ -574,7 +577,7 @@ class CUP$parser$actions {
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$parser$stack.peek()).value;
 		
       errorAt("expected ';' after request", kwleft, kwleft);
-      done_parsing();
+      //done_parsing();
     
               CUP$parser$result = parser.getSymbolFactory().newSymbol("statement",5, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-2)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
@@ -643,7 +646,7 @@ class CUP$parser$actions {
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-1)).value;
 		 
       errorAt("expected NUMBER for status", kwleft, kwleft);
-      done_parsing();
+      //done_parsing();
     
               CUP$parser$result = parser.getSymbolFactory().newSymbol("assertion",7, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-4)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
@@ -739,7 +742,7 @@ class CUP$parser$actions {
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-1)).value;
 		
       errorAt("expected STRING after 'body ='", kwleft, kwleft);
-      done_parsing();
+      //done_parsing();
     
               CUP$parser$result = parser.getSymbolFactory().newSymbol("request_body",8, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-3)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
@@ -794,7 +797,7 @@ class CUP$parser$actions {
 		
       // Point error to the 'let' keyword line for consistency
       errorAt("expected IDENT after 'let'", kwleft, kwleft);
-      done_parsing();
+      //done_parsing();
     
               CUP$parser$result = parser.getSymbolFactory().newSymbol("variable_decl",9, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
@@ -812,7 +815,7 @@ class CUP$parser$actions {
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$parser$stack.peek()).value;
 		
       errorAt("expected IDENT after 'let'", kwleft, kwleft);
-      done_parsing();
+      //done_parsing();
     
               CUP$parser$result = parser.getSymbolFactory().newSymbol("variable_decl",9, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }

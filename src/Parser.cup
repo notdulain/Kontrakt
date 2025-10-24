@@ -178,28 +178,28 @@ statement ::=
   | GET:kw STRING:path error:e
     {:
       errorAt("expected ';' after request", kwleft, kwleft);
-      done_parsing();
+      //done_parsing();
     :}
 
   // ERROR_RULE: missing semicolon after POST request
   | POST STRING:path LBRACE request_body RBRACE:rb error:e
     {:
       errorAt("expected ';' after request", rbleft, rbleft);
-      done_parsing();
+      //done_parsing();
     :}
 
   // ERROR_RULE: missing semicolon after PUT request
   | PUT:kw STRING:path LBRACE request_body RBRACE:rb error:e
     {:
       errorAt("expected ';' after request", rbleft, rbleft);
-      done_parsing();
+      //done_parsing();
     :}
 
   // ERROR_RULE: missing semicolon after DELETE request
   | DELETE:kw STRING:path error:e
     {:
       errorAt("expected ';' after request", kwleft, kwleft);
-      done_parsing();
+      //done_parsing();
     :}
   ;
 
@@ -232,7 +232,7 @@ assertion ::=
   | EXPECT STATUS:kw EQUALS error:e SEMICOLON
     {: 
       errorAt("expected NUMBER for status", kwleft, kwleft);
-      done_parsing();
+      //done_parsing();
     :}
 
   | EXPECT BODY CONTAINS STRING:text SEMICOLON
@@ -269,7 +269,7 @@ request_body ::=
   | BODY:kw EQUALS error:e SEMICOLON
     {:
       errorAt("expected STRING after 'body ='", kwleft, kwleft);
-      done_parsing();
+      //done_parsing();
     :}
   ;
 
@@ -291,14 +291,14 @@ variable_decl ::=
     {:
       // Point error to the 'let' keyword line for consistency
       errorAt("expected IDENT after 'let'", kwleft, kwleft);
-      done_parsing();
+      //done_parsing();
     :}
 
   // ERROR_RULE: Identifier cannot start with a digit or other invalid token
   | LET:kw error:e
     {:
       errorAt("expected IDENT after 'let'", kwleft, kwleft);
-      done_parsing();
+      //done_parsing();
     :}
   ;
 

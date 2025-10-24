@@ -3,7 +3,7 @@ config {
   header "Content-Type" = "application/json";
 }
 
-let username = "admin";
+let 2username = "admin";
 let password = "1234";
 
 // Test 1: Login
