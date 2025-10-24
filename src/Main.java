@@ -14,6 +14,12 @@ public class Main {
             parser parser = new parser(scanner);
 
             Symbol result = parser.parse();
+
+            if (parser.hadErrors()) {
+                System.err.println("❌ Errors encountered. Aborting code generation.");
+                System.exit(1); 
+            }
+
             Program program = parser.getProgram();
             
             System.out.println("\n✅ Parsing completed successfully!");
