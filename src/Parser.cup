@@ -251,6 +251,12 @@ assertion ::=
       RESULT = null;
     :}
 
+  // ERROR_RULE: status range must not be inside quotes
+  | EXPECT STATUS IN STRING:rangeStr SEMICOLON
+    {:
+        errorAt("status range must not be quoted", rangeStrleft, rangeStrleft);
+    :}
+
   //ERROR_RULE: status must be an integer
   | EXPECT STATUS:kw EQUALS error:e SEMICOLON
     {: 

@@ -11,7 +11,7 @@ test Login {
   POST "/api/login" {
     body = "{ \"username\": \"$username\", \"password\": \"$password\" }";
   }
-  expect status in 199..200;
+  expect status in "199..200";
   expect header "Content-Type" contains "json";
   expect body contains "\"success\": true";
   expect body contains "\"token\":";
