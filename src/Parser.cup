@@ -226,10 +226,10 @@ assertion ::=
     :}
 
   //ERROR_RULE: status must be an integer
-  | EXPECT STATUS EQUALS error:e SEMICOLON
+  | EXPECT STATUS:kw EQUALS error:e SEMICOLON
     {: 
-      int line = ((Symbol)e).left + 1;
-      parser.report_error("expected NUMBER for status at line " + line, e); 
+      errorAt("expected NUMBER for status", kwleft, kwleft);
+      done_parsing();
     :}
 
   | EXPECT BODY CONTAINS STRING:text SEMICOLON
