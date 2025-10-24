@@ -263,10 +263,10 @@ request_body ::=
     :}
 
   //ERROR_RULE: Body must be a string
-  | BODY EQUALS error:e SEMICOLON
+  | BODY:kw EQUALS error:e SEMICOLON
     {:
-      int line = ((Symbol)e).left + 1;
-      parser.report_error("expected STRING after 'body =' at line " + line, e);
+      errorAt("expected STRING after 'body ='", kwleft, kwleft);
+      done_parsing();
     :}
   ;
 

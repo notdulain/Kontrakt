@@ -713,12 +713,15 @@ class CUP$parser$actions {
           case 28: // request_body ::= BODY EQUALS error SEMICOLON 
             {
               String RESULT =null;
+		int kwleft = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-3)).left;
+		int kwright = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-3)).right;
+		Object kw = (Object)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-3)).value;
 		int eleft = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).right;
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-1)).value;
 		
-      int line = ((Symbol)e).left + 1;
-      parser.report_error("expected STRING after 'body =' at line " + line, e);
+      errorAt("expected STRING after 'body ='", kwleft, kwleft);
+      done_parsing();
     
               CUP$parser$result = parser.getSymbolFactory().newSymbol("request_body",8, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-3)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
