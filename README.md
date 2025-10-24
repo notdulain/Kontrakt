@@ -12,7 +12,7 @@ Kontrakt++ is a **Domain-Specific Language** (a fancy term for "mini-language th
 
 ## 📁 Project Structure: Where Things Live
 ```
-kontrakt-plus-plus/
+Kontrakt/
 ├── src/                # The brains of the operation
 │ ├── Scanner.flex          # Tokenizer rules (JFlex)
 │ ├── Parser.cup            # Grammar rules (CUP)
@@ -22,9 +22,11 @@ kontrakt-plus-plus/
 ├── examples/            # Test files you can actually read
 │ ├── example.test          # Basic example
 │ ├── example_1.test        # More complex stuff
-│ └── example_2.test        # Even more complex stuff
+│ └── example_2.test        # another one, just in case
 ├── backend/              # SpringBoot backend to test against
 ├── lib/                  # JAR files (the dependencies)
+├── bin/                  # da "binaries" - export yard
+│
 └── Makefile   # this is one of the coolest things ever
 ```
 
