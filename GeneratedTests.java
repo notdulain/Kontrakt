@@ -34,7 +34,7 @@ public class GeneratedTests {
     System.out.println("<-- status=" + resp.statusCode());
     System.out.println(resp.body());
 
-    assertEquals(200, resp.statusCode());
+    assertTrue(resp.statusCode() >= 199 && resp.statusCode() <= 200);
     assertTrue(resp.headers().firstValue("Content-Type").orElse("").contains("json"));
     String _bodyNoWs = resp.body().replace(" ", "").replace("\n", "").replace("\r", "").replace("\t", "");
     assertTrue(_bodyNoWs.contains("\"success\":true"));

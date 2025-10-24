@@ -230,21 +230,25 @@ assertion ::=
       RESULT = Assertion.status(Integer.parseInt(code));
     :}
 
-    | EXPECT STATUS IN NUMBER:start RANGE NUMBER:end SEMICOLON
+  | EXPECT STATUS IN NUMBER:start RANGE NUMBER:end SEMICOLON
     {:
-      Integer min = null;
-      Integer max = null;
-      try {
-        min = Integer.parseInt(start);
-      } catch (NumberFormatException ex) {
-        errorAt("expected NUMBER for status range", startleft, startleft);
-      }
-      try {
-        max = Integer.parseInt(end);
-      } catch (NumberFormatException ex) {
-        errorAt("expected NUMBER for status range", endleft, endleft);
-      }
+      int min = Integer.parseInt(start);
+      int max = Integer.parseInt(end);
       RESULT = Assertion.statusRange(min, max);
+    :}
+
+  //ERROR_RULE: status range must be integers (bad lower bound)
+  | EXPECT STATUS IN error:bad RANGE NUMBER:end SEMICOLON
+    {:
+        errorAt("expected NUMBER for status range", badleft, badleft);
+        RESULT = null;
+    :}
+
+  // ERROR_RULE: status range must be integers (bad upper bound)
+  | EXPECT STATUS IN NUMBER:start RANGE error:bad SEMICOLON
+    {:
+      errorAt("expected NUMBER for status range", badleft, badleft);
+      RESULT = null;
     :}
 
   //ERROR_RULE: status must be an integer
