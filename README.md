@@ -33,7 +33,7 @@ Kontrakt/
 │ └── Scanner.flex          # Tokenizer rules (JFlex)
 │
 ├── Makefile   # this is one of the coolest things ever (special section at the end)
-└── README.me
+└── README.md
 ```
 
 
@@ -76,7 +76,8 @@ make run
 ```
 What happens: Takes example_1.test (threre are more commands to test others!) and creates GeneratedTests.java. This is where the real magic happens!
 
-[Screenshot: Show the input .test file and the output GeneratedTests.java side by side]
+![Preview](public/input-generated.png)
+
 
 ## 🎭 Running the backend: The test subject
 
@@ -95,7 +96,7 @@ java -jar target/testlang-demo-0.0.1-SNAPSHOT.jar
 - um, click it
 - wait for "Started Application" in the console
 
-[Screenshot: IntelliJ with the running Spring Boot app]
+![Preview](public/backend.png)
 
 just to verify, open http://localhost:8080 in your browser. if you see something other than an error, you're golden!
 
@@ -113,7 +114,7 @@ make run-tests
 ```
 the moment of truth: this runs your generated JUnit tests against the running backend.
 
-[Screenshot: Green passing tests in the terminal]
+![Preview](public/tests.png)
 
 ## 🏃🏻 in a hurry?
 
