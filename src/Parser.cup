@@ -45,6 +45,11 @@ parser code {:
   public void unrecovered_syntax_error(Symbol cur_token) throws Exception {
     throw new Exception("parse failed");
   }
+
+  //helper to track the line
+  private void errorAt(String msg, int left, int right) {
+    report_error(msg, new java_cup.runtime.Symbol(sym.error, left, right, null));
+  }
 :}
 
 //Terminals (tokens from the scanner)
@@ -282,14 +287,14 @@ variable_decl ::=
   | LET:kw NUMBER:bad
     {:
       // Point error to the 'let' keyword line for consistency
-      parser.report_error("expected IDENT after 'let'", kw);
+      errorAt("expected IDENT after 'let'", kwleft, kwleft);
       done_parsing();
     :}
 
   // ERROR_RULE: Identifier cannot start with a digit or other invalid token
   | LET:kw error:e
     {:
-      parser.report_error("expected IDENT after 'let'", kw);
+      errorAt("expected IDENT after 'let'", kwleft, kwleft);
       done_parsing();
     :}
   ;

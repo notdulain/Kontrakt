@@ -225,6 +225,11 @@ public class parser extends java_cup.runtime.lr_parser {
     throw new Exception("parse failed");
   }
 
+  //helper to track the line
+  private void errorAt(String msg, int left, int right) {
+    report_error(msg, new java_cup.runtime.Symbol(sym.error, left, right, null));
+  }
+
 
 /** Cup generated class to encapsulate user supplied action code.*/
 @SuppressWarnings({"rawtypes", "unchecked", "unused"})
@@ -767,7 +772,7 @@ class CUP$parser$actions {
 		String bad = (String)((java_cup.runtime.Symbol) CUP$parser$stack.peek()).value;
 		
       // Point error to the 'let' keyword line for consistency
-      parser.report_error("expected IDENT after 'let'", kw);
+      errorAt("expected IDENT after 'let'", kwleft, kwleft);
       done_parsing();
     
               CUP$parser$result = parser.getSymbolFactory().newSymbol("variable_decl",9, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
@@ -785,7 +790,7 @@ class CUP$parser$actions {
 		int eright = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).right;
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$parser$stack.peek()).value;
 		
-      parser.report_error("expected IDENT after 'let'", kw);
+      errorAt("expected IDENT after 'let'", kwleft, kwleft);
       done_parsing();
     
               CUP$parser$result = parser.getSymbolFactory().newSymbol("variable_decl",9, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
