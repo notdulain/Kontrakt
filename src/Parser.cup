@@ -176,21 +176,21 @@ statement ::=
       RESULT = a;
     :}
 
-  //ERROR_RULE: missing semicolon after request
+  //ERROR_RULE: missing semicolon after GET request
   | GET:kw STRING:path error:e
     {:
-      errorAt("expected ';' after request", kwleft, kwleft);
+      errorAt("expected ';' after the GET request", kwleft, kwleft);
       //done_parsing();
     :}
 
-  // ERROR_RULE: missing semicolon after POST request
+  // ERROR_RULE: unnecessary semicolon after POST request
   | POST STRING:path LBRACE request_body RBRACE:rb error:e
     {:
       errorAt("There's a ';' at the end of the POST block", rbleft, rbleft);
       //done_parsing();
     :}
 
-  // ERROR_RULE: missing semicolon after PUT request
+  // ERROR_RULE: unnecessary semicolon after PUT request
   | PUT:kw STRING:path LBRACE request_body RBRACE:rb error:e
     {:
       errorAt("There's a ';' at the end of the PUT block", rbleft, rbleft);
@@ -200,7 +200,7 @@ statement ::=
   // ERROR_RULE: missing semicolon after DELETE request
   | DELETE:kw STRING:path error:e
     {:
-      errorAt("expected ';' after request", kwleft, kwleft);
+      errorAt("expected ';' after the DELETE request", kwleft, kwleft);
       //done_parsing();
     :}
   ;

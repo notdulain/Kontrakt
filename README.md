@@ -58,6 +58,8 @@ if they're missing, well... good luck with compiling 💀
 
 ## ⚡ The Fun Part: Making Things Happen (step-by-step)
 
+run ***make clean*** before anything to make sure you have a clean slate
+
 ### Phase 1: Compiling the Parser & Scanner
 ```bash
 make generate
