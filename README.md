@@ -91,9 +91,14 @@ What happens: Takes example_1.test (threre are more commands to test others!) an
 ### Option A: CLI (for terminal nerds)
 ```bash
 cd backend
-mvn clean package
-java -jar target/testlang-demo-0.0.1-SNAPSHOT.jar
+./mvnw spring-boot:run
 ```
+Windows 👇🏻
+```bash
+cd backend
+.\mvnw spring-boot:run
+```
+![Preview](public/spring-terminal.png)
 
 ### Option B: IntelliJ (jetbrains didn't develop the best IDE for java only for us to use the terminal 🤌🏻)
 - open the backend folder as a project in IntelliJ
@@ -105,7 +110,7 @@ java -jar target/testlang-demo-0.0.1-SNAPSHOT.jar
 
 ![Preview](public/backend.png)
 
-just to verify, open http://localhost:8080 in your browser. if you see something other than an error, you're golden!
+just to verify, open http://localhost:8080 in your browser. if you see something other than an error, you're good to go!
 
 ## 🧪 The Grand Finale: Running Tests
 
@@ -125,20 +130,26 @@ the moment of truth: this runs your generated JUnit tests against the running ba
 
 ## 🏃🏻 in a hurry?
 
-### 1. start clean and run this:
+```bash
+make clean
+```
+
 ```bash
 make all
 ```
-will compile everything you need to compile
 
-### 2. finally this
 ```bash
 make test-full
 ```
-will parse your .test file, compile the GeneratedTests.java, and even run it against your backend using JUnit Jupiter
+this will:
+ - clean your directory
+ - compile everything you need to compile
+ - will parse your .test file
+ - compile the GeneratedTests.java
+ - and even run it against your backend using JUnit Jupiter\
 (this whole make-thing is pretty cool huh? stay tuned for the _Makefile_ segment 👽)
 
-#### I put together a comprehensive note in Notion since I started working on this project... it has everything from understanding how a language parser works to the hair-pulling errors I encountered + how I encountered them.
+#### *I put together a comprehensive note in Notion since I started working on this project... it has everything from understanding how a language parser works to the hair-pulling errors I encountered + how I solved them.*
 *click the image for the treat* 😉
 [![API Preview](public/notion.png)](https://bit.ly/kontrakt-note)
 
