@@ -25,6 +25,8 @@ Kontrakt/
 │
 ├── lib/               # JAR files (the dependencies)
 │
+├── public/            # this one's for the GitHub
+│
 ├── src/               # The brains of the operation
 │ ├── ast/               # Abstract Syntax Tree classes
 │ ├── CodeGenerator.java    # I mean, the name 🤷🏻‍♂️
@@ -58,7 +60,10 @@ if they're missing, well... good luck with compiling 💀
 
 ## ⚡ The Fun Part: Making Things Happen (step-by-step)
 
-run ***make clean*** before anything to make sure you have a clean slate
+run this before anything, to make sure you have a clean slate
+```bash
+make clean
+```
 
 ### Phase 1: Compiling the Parser & Scanner
 ```bash
@@ -132,6 +137,10 @@ make test-full
 ```
 will parse your .test file, compile the GeneratedTests.java, and even run it against your backend using JUnit Jupiter
 (this whole make-thing is pretty cool huh? stay tuned for the _Makefile_ segment 👽)
+
+#### I put together a comprehensive note in Notion since I started working on this project... it has everything from understanding how a language parser works to the hair-pulling errors I encountered + how I encountered them.
+*click the image for the treat* 😉
+[![API Preview](public/notion.png)](https://bit.ly/kontrakt-note)
 
 ## 🎪 Example Test Cases That Actually Work (inside example_1.test)
 Here's what you can test right now (assuming backend is running):
@@ -224,24 +233,25 @@ make test-example-2
 ```
 
 ## 🏆 And the Best Supporting Actor Award Goes To...
-### 🎬 The Makefile: The Unsung Hero of This Production
+### 🎬 Makefile: The Unsung Hero of This Production
 While our parser and code generator are getting all the spotlight, let's take a moment to appreciate the real MVP backstage: the **Makefile**. This humble text file is the stage manager that makes sure everyone hits their cues perfectly.
 
 ### 🎪 What This Makefile Actually Does (Behind the Scenes)
 Think of it as your personal assistant that remembers all the annoying commands so you don't have to:
 ```bash
-# Instead of typing this nightmare:
-jflex src/Scanner.flex
-cup -parser Parser src/Parser.cup
-javac -cp "lib/java-cup-11b-runtime.jar:." src/ast/*.java src/*.java -d bin/
+# instead of typing all this nightmare:
+java -jar lib/jflex-full-1.9.1.jar -d src
+java -jar lib/java-cup-11b.jar -destdir src -parser parser src/Parser.cup
+mkdir -p bin
+javac -cp "lib/java-cup-11b-runtime.jar:src" -d bin /*.java
 java -cp "lib/java-cup-11b-runtime.jar:bin" Main examples/example_1.test
 javac -cp "lib/junit-platform-console-standalone-1.10.1.jar:." GeneratedTests.java
 java -jar lib/junit-platform-console-standalone-1.10.1.jar --class-path . --scan-class-path
 
 # You just type:
-make test-full
+make all + make test-full
 ```
-mic. drop. 🎤
+mic. drop. 🫳🏻🎤
 
 ### 📜 The Makefile: A 45-Year-Old Time Traveler
 #### 🕰️ 1977: The Birth of a Legend
