@@ -33,6 +33,11 @@ run:
 	@echo "▶️  Running on the example_1.test file..."
 	java -cp "$(CUPRUNTIME):$(BIN)" Main examples/example_1.test
 
+backend-run:
+	@echo "▶️  Running the backend..."
+	cd backend && ./mvnw spring-boot:run
+
+
 test-example-1:
 	@echo "▶️  Running on the example_1.test file..."
 	java -cp "$(CUPRUNTIME):$(BIN)" Main examples/example_1.test
