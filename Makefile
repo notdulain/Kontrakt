@@ -33,6 +33,10 @@ run:
 	@echo "▶️  Running on the example_1.test file..."
 	java -cp "$(CUPRUNTIME):$(BIN)" Main examples/example_1.test
 
+openapi-run:
+	@echo "▶️  Running the OpenAPI generator..."
+	java -cp "$(CUPRUNTIME):$(BIN)" MainOpenAPI examples/example_1.test
+
 backend-run:
 	@echo "▶️  Running the backend..."
 	cd backend && ./mvnw spring-boot:run

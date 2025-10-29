@@ -16,7 +16,7 @@ test Login {
     }
     """;
   };
-  expect status in foo..200;
+  expect status in foo..299;
   expect header "Content-Type" contains "json";
   expect body contains "\"success\": true";
   expect body contains "\"token\":";
