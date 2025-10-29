@@ -1,0 +1,62 @@
+openapi: 3.0.3
+info:
+  title: Kontrakt Spec
+  version: 0.1.0
+  servers:
+    - url: "http://localhost:8080"
+    paths:
+      /api/login:
+        post:
+          operationId: "post__api_login"
+          requestBody:
+            content:
+              application/json:
+                examples:
+                  example:
+                    value: |
+                      { "username": "wrong", "password": "wrong" }
+              responses:
+                "401":
+                  description: "Body contains: \"success\": false, \"message\": \"Invalid credentials\""
+          /api/users/42:
+            get:
+              operationId: "get__api_users_42"
+              responses:
+                "200":
+                  description: "Body contains: \"id\": 42, \"username\": \"user42\", \"email\": \"user42@example.com\", \"role\": \"USER\""
+                  headers:
+                    Content-Type:
+                      schema: { type: string }
+                      description: "contains json"
+            put:
+              operationId: "put__api_users_42"
+              requestBody:
+                content:
+                  application/json:
+                    examples:
+                      example:
+                        value: |
+                          { "role": "ADMIN" }
+                  responses:
+                    "200":
+                      description: "Body contains: \"id\": 42, \"updated\": true, \"role\": \"ADMIN\", \"message\": \"User updated successfully\""
+                      headers:
+                        Content-Type:
+                          schema: { type: string }
+                          description: "contains json"
+              /api/users/99:
+                delete:
+                  operationId: "delete__api_users_99"
+                  responses:
+                    "200":
+                      description: "Body contains: \"id\": 99, \"deleted\": true, \"message\": \"User deleted successfully\""
+                      headers:
+                        Content-Type:
+                          schema: { type: string }
+                          description: "contains json"
+              /api/users/9999:
+                get:
+                  operationId: "get__api_users_9999"
+                  responses:
+                    "404":
+                      description: "Body contains: \"error\", \"User not found\""
