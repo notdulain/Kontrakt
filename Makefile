@@ -73,7 +73,7 @@ test-full: run compile-tests run-tests
 
 clean:
 	rm -rf $(BIN)
-	rm -f $(SRC)/KontraktScanner.java $(SRC)/parser.java $(SRC)/sym.java
-	rm -f GeneratedTests.java GeneratedTests.class
+	rm -f $(SRC)/KontraktScanner.java $(SRC)/KontraktScanner.java~ $(SRC)/parser.java $(SRC)/sym.java
+	rm -f GeneratedTests.java GeneratedTests.class openapi.yaml
 
 .PHONY: all generate compile run clean
